@@ -41,9 +41,9 @@ Source document: `docs/MILESTONE_01_HARDENING_REPORT.md`
 - Contextual focus rings, darker ivory-surface accents and 44px controls improve keyboard accessibility.
 - Cheshire placeholder is now entirely in-world.
 
-## Validation
+## Initial validation and independent gate
 
-Passed on this branch:
+The initial hardening passed these checks, but that did not establish queue correctness:
 
 ```text
 npm install
@@ -54,7 +54,30 @@ npm run build
 python -m py_compile apps/api/main.py
 ```
 
-Tests cover queue success/failure/preservation, API validation, duplicate retry, distinct events, concurrent requests and sequence reuse after reload. Runtime smoke validation covers `/`, `/rabbit-hole`, `/crossroads`, `/rabbit`, `/hatter`, `/cheshire`, `/cheshire/quiz` and `/api/v1/health`.
+The independent gate on `a00191abbab87653aca4ee3861640b66b506d4c0` rejected merge: a stale queue snapshot erased in-flight additions (including completion), a lifetime retry cutoff blocked recovery, navbar Choose bypassed skip semantics, and desktop hover/focus states had insufficient contrast/parity. The original pure queue tests did not exercise asynchronous delivery.
+
+## Final regression patch
+
+- ACK/failure reconciliation now reads the latest queue and updates only the matching UUID. A serial drain delivers newly appended events next; there is no completion-specific workaround.
+- Three attempts are allowed per event per recovery cycle with 250ms/500ms waits. Exhaustion stops that cycle, retains pending entries and permits a fresh cycle on startup/focus/online. Persisted failures are diagnostic, not a lifetime cutoff; later entries drain after the head recovers.
+- Navbar Choose and internal skip use the same synchronous `requestSkip` operation, setting the scene state before anchor scrolling. Completion prevents retroactive skip.
+- Crossroads has contextual light/dark focus at all widths and shared hover/focus-within surface, text and accent states. Number contrast on dark is 8.36:1 / 10.34:1 / 8.33:1; dark focus on Ivory is 7.82:1. Desktop CTA/description contrast and targets were checked.
+
+### Regression evidence
+
+Before implementation edits, the six new tests in `analytics-delivery.test.ts` failed against the starting source: single/multiple in-flight additions disappeared, completion disappeared during depth-100 delivery, cycle-budget expectations failed for online/focus, and a persisted exhausted event was never sent on startup. Against the original production build, the new navbar test observed start/depth instead of skip and the hover test measured Rabbit at 2.70:1.
+
+After the patch, all nine unit tests (six new, three existing), API smoke checks, lint, typecheck, production build and Python compile passed. The seven Playwright browser cases passed against the local production build and real FastAPI service:
+
+1. Navbar Choose: one skip, no fabricated traversal.
+2. Internal skip: one skip, no false depths/completion.
+3. Normal hero traversal: all eight events receive HTTP 202; completion remains queued while depth 100 is held, then delivers and clears; Choose after completion emits no skip.
+4. Exhausted offline cycle recovers on online.
+5. Exhausted offline cycle recovers on focus.
+6. Persisted exhausted queue recovers on reload/startup.
+7. All three desktop hover and keyboard focus states, text contrast, 44px CTA targets and Ivory focus treatment.
+
+Run `npm run test:regressions` with the production frontend and API running; see README. The browser suite uses delayed requests and connection failures, but successful deliveries receive real HTTP 202 responses. This is focused regression verification, not a new general product audit or global accessibility certification.
 
 ## Remaining Limitations
 
@@ -63,8 +86,8 @@ Tests cover queue success/failure/preservation, API validation, duplicate retry,
 - Formal WCAG AA and Core Web Vitals certification is not claimed.
 - The Next 15 build prints an informational warning about detecting the valid ESLint flat config; `npm run lint` passes.
 
-## Milestone 02 Readiness
+## Patch status
 
-**READY WITH CONDITIONS**
+**READY FOR FINAL CODEX RE-VERIFICATION**
 
-The branch is ready for independent regression verification. Milestone 02 must preserve `client_event_id` as the durable database uniqueness identity.
+The branch requires an independent read-only regression gate on its new HEAD before merge. No merge, tag or Milestone 02 implementation is part of this patch. Milestone 02 must preserve `client_event_id` as the durable database uniqueness identity.

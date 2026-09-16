@@ -1,7 +1,9 @@
 {
   "name": "wonderland-follow-the-white-rabbit",
   "private": true,
-  "workspaces": ["apps/web"],
+  "workspaces": [
+    "apps/web"
+  ],
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "dev:web": "npm --workspace apps/web run dev -- -H 127.0.0.1",
@@ -9,6 +11,10 @@
     "build": "npm --workspace apps/web run build",
     "lint": "npm --workspace apps/web run lint",
     "typecheck": "npm --workspace apps/web run typecheck",
-    "test": "npm run typecheck && npm --workspace apps/web run test && node scripts/test-api.mjs"
+    "test": "npm run typecheck && npm --workspace apps/web run test && node scripts/test-api.mjs",
+    "test:regressions": "node --test scripts/test-final-regressions.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
   }
 }

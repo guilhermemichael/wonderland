@@ -1,4 +1,4 @@
-import { applyFlushOutcomes, type FlushOutcome } from "./analytics-queue";
+import { applyFlushOutcomes } from "./analytics-queue";
 
 export type EventName =
   | "page_view" | "cta_click" | "rabbit_hole_started" | "scroll_depth"
@@ -18,7 +18,7 @@ type QueuedEvent = AnalyticsEvent & { attempts: number };
 const QUEUE_KEY = "wonderland_event_queue";
 const SESSION_KEY = "wonderland_session_id";
 const SEQUENCE_KEY = "wonderland_client_sequence";
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS_PER_FLUSH = 3;
 let flushing = false;
 let initialized = false;
 
@@ -43,8 +43,8 @@ function readQueue(): QueuedEvent[] {
 
 function writeQueue(queue: QueuedEvent[]) {
   const store = storage("localStorage");
-  if (!store) return;
-  try { store.setItem(QUEUE_KEY, JSON.stringify(queue)); } catch { /* optional analytics storage */ }
+  if (!store) return false;
+  try { store.setItem(QUEUE_KEY, JSON.stringify(queue)); return true; } catch { return false; }
 }
 
 function sessionId() {
@@ -74,25 +74,29 @@ export async function flushEventQueue() {
   if (flushing || typeof window === "undefined") return;
   flushing = true;
   try {
-    const queue = readQueue();
-    const outcomes: FlushOutcome[] = [];
-    for (let index = 0; index < queue.length; index += 1) {
-      const queued = queue[index];
-      if (queued.attempts >= MAX_ATTEMPTS) break;
-      try {
-        const response = await fetch(apiEventsUrl(), {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(queued),
-        });
-        if (!response.ok) throw new Error(`analytics_http_${response.status}`);
-        outcomes.push({ client_event_id: queued.client_event_id, success: true });
-      } catch {
-        outcomes.push({ client_event_id: queued.client_event_id, success: false });
-        break;
+    while (true) {
+      const queued = readQueue()[0];
+      if (!queued) return;
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS_PER_FLUSH; attempt += 1) {
+        let accepted = false;
+        try {
+          const response = await fetch(apiEventsUrl(), {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(queued),
+          });
+          accepted = response.ok;
+        } catch { /* Leave offline events pending for a later recovery cycle. */ }
+
+        // Never reconcile an ACK against the pre-await snapshot: new events
+        // may have been appended while this request was in flight.
+        const current = readQueue();
+        if (!writeQueue(applyFlushOutcomes(current, [{ client_event_id: queued.client_event_id, success: accepted }]) as QueuedEvent[])) return;
+        if (accepted) break;
+        if (attempt === MAX_ATTEMPTS_PER_FLUSH) return;
+        await new Promise((resolve) => setTimeout(resolve, 250 * attempt));
       }
     }
-    writeQueue(applyFlushOutcomes(queue, outcomes, MAX_ATTEMPTS) as QueuedEvent[]);
   } finally {
     flushing = false;
   }

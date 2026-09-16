@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { trackEvent } from "../lib/analytics";
 
-type RabbitHoleProps = { page?: string };
+export type RabbitHoleHandle = { requestSkip: (reason: "explicit_navigation" | "navigation_choose") => void };
+type RabbitHoleProps = { page?: string; ref?: Ref<RabbitHoleHandle> };
 
-export function RabbitHole({ page = "/rabbit-hole" }: RabbitHoleProps) {
+export function RabbitHole({ page = "/rabbit-hole", ref }: RabbitHoleProps) {
   const root = useRef<HTMLElement>(null);
   const progress = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
@@ -100,11 +101,12 @@ export function RabbitHole({ page = "/rabbit-hole" }: RabbitHoleProps) {
     };
   }, [page]);
 
-  const handleSkip = () => {
+  const requestSkip: RabbitHoleHandle["requestSkip"] = (reason) => {
     if (completed.current || skipped.current) return;
     skipped.current = true;
-    trackEvent({ event_name: "rabbit_hole_skipped", page, properties: { reason: "explicit_navigation" } });
+    trackEvent({ event_name: "rabbit_hole_skipped", page, properties: { reason } });
   };
+  useImperativeHandle(ref, () => ({ requestSkip }));
 
   return (
     <section ref={root} className={`rabbit-hole${reducedMotion ? " is-reduced" : ""}`} aria-labelledby="rabbit-hole-title">
@@ -119,7 +121,7 @@ export function RabbitHole({ page = "/rabbit-hole" }: RabbitHoleProps) {
         <div className="fall-object card" aria-hidden="true">?</div>
         <div className="fall-object ink" aria-hidden="true" />
         <div className="rabbit-progress" aria-hidden="true"><span ref={progress} /></div>
-        <a className="skip-rabbit" href="#crossroads" onClick={handleSkip}>Skip to the crossroads ↗</a>
+        <a className="skip-rabbit" href="#crossroads" onClick={() => requestSkip("explicit_navigation")}>Skip to the crossroads ↗</a>
       </div>
     </section>
   );

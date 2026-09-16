@@ -1,16 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { useRef } from "react";
 import { Crossroads } from "../components/crossroads";
-import { RabbitHole } from "../components/rabbit-hole";
+import { RabbitHole, type RabbitHoleHandle } from "../components/rabbit-hole";
 import { trackEvent } from "../lib/analytics";
 
 export default function Home() {
+  const rabbitHole = useRef<RabbitHoleHandle>(null);
   return (
     <main className="site-shell">
       <nav className="site-nav" aria-label="Primary navigation">
         <Link href="/" className="brand-mark">WONDERLAND</Link>
-        <div className="nav-links"><a href="#rabbit-hole">Enter</a><a href="#crossroads">Choose</a><a href="#about">About</a></div>
+        <div className="nav-links"><a href="#rabbit-hole">Enter</a><a href="#crossroads" onClick={() => rabbitHole.current?.requestSkip("navigation_choose")}>Choose</a><a href="#about">About</a></div>
       </nav>
       <section className="landing" id="about" aria-labelledby="hero-title">
         <div className="landing-content">
@@ -21,7 +23,7 @@ export default function Home() {
         </div>
         <div className="scroll-cue" aria-hidden="true">Scroll to follow ↓</div>
       </section>
-      <div id="rabbit-hole"><RabbitHole page="/" /></div>
+      <div id="rabbit-hole"><RabbitHole ref={rabbitHole} page="/" /></div>
       <div id="crossroads"><Crossroads page="/" /></div>
       <footer className="footer-note">We're all mad here. / Marketing · Product · Engineering · MarTech</footer>
     </main>
