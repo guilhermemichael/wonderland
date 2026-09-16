@@ -1,8 +1,22 @@
 import { spawn } from "node:child_process";
+import { resolve } from "node:path";
 import { ensureApiEnvironment, root } from "./ensure-api.mjs";
 
+import { existsSync, rmSync } from "node:fs";
 const python = ensureApiEnvironment();
-const server = spawn(python, ["-m", "uvicorn", "main:app", "--host", "127.0.0.1", "--port", "8001"], { cwd: `${root}/apps/api`, stdio: "ignore" });
+const testDbFile = resolve(root, "test_api_smoke.db").replace(/\\/g, "/");
+const server = spawn(
+  python,
+  ["-m", "uvicorn", "main:app", "--host", "127.0.0.1", "--port", "8001"],
+  {
+    cwd: `${root}/apps/api`,
+    stdio: "ignore",
+    env: {
+      ...process.env,
+      DATABASE_URL: process.env.DATABASE_URL ?? `sqlite:///${testDbFile}`,
+    },
+  }
+);
 
 async function waitForHealth() {
   for (let attempt = 0; attempt < 30; attempt += 1) {
@@ -35,4 +49,7 @@ try {
   console.log("API smoke test passed: health, validation, distinct events, concurrent retry idempotency and reload-safe sequencing.");
 } finally {
   server.kill("SIGTERM");
+  try {
+    if (existsSync(testDbFile)) rmSync(testDbFile, { force: true });
+  } catch {}
 }

@@ -6,18 +6,18 @@ WONDERLAND is an experimental digital product exploring how storytelling, market
 
 ## Overview
 
-Milestone 01 delivers the integrated narrative foundation: Landing, Rabbit Hole, Crossroads, Rabbit/Hatter/Cheshire paths, design tokens, GSAP motion, reduced-motion behavior and basic event ingestion. It is an original literary interpretation inspired by Lewis Carroll, not an official Disney product and not built with Disney assets.
+Milestone 01 delivered the integrated narrative foundation: Landing, Rabbit Hole, Crossroads, Rabbit/Hatter/Cheshire paths, design tokens, GSAP motion, reduced-motion behavior and event ingestion.
+Milestone 02 introduces the durable product data foundation: PostgreSQL persistence, Alembic migrations, session lifecycle management, persistent event stream with database-level idempotency, authoritative server-side quiz scoring, deterministic tie-breaking, partial quiz progress recovery, lead capture, and explicit consent tracking.
 
 ## Stack
 
 - Next.js 15, React 19 and TypeScript
 - GSAP + ScrollTrigger
 - Fontsource Cormorant Garamond + Manrope
-- FastAPI + Pydantic
+- FastAPI + Pydantic v2
+- PostgreSQL 16+ with SQLAlchemy 2.x, psycopg 3, and Alembic migrations
+- Docker Compose for local database reproducibility
 - Node.js scripts for one-command local orchestration
-- In-memory API event store for Milestone 01
-
-PostgreSQL, quiz scoring, lead capture and session recovery are intentionally deferred to Milestone 02.
 
 ## Requirements
 

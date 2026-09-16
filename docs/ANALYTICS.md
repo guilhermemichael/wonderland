@@ -2,9 +2,9 @@
 
 Tracked facts in Milestone 01.1: `cta_click`, `rabbit_hole_started`, `scroll_depth`, `rabbit_hole_completed`, `rabbit_hole_skipped`, and `path_selected`. Scroll thresholds are emitted only during a real, non-skipped Rabbit Hole traversal. Mobile path previews do not count as selection.
 
-Each event has a UUID `client_event_id`, persistent `client_sequence`, and anonymous `session_id`. The API uses `client_event_id` as the in-memory idempotency key. PostgreSQL uniqueness is deferred to Milestone 02.
+Each event has a UUID `client_event_id`, persistent `client_sequence`, and anonymous/public `session_id`. In Milestone 02, the API enforces persistent database-level idempotency via a `UNIQUE` constraint on `client_event_id` in PostgreSQL (`campaign_events` table). Concurrent duplicate requests are resolved safely without error or duplicated rows.
 
-Dashboard metrics and experiments are synthetic by definition and must be labeled as such when implemented.
+Analytics events strictly maintain privacy boundaries: generic event properties NEVER contain lead PII (email, name). All lead data is segregated in the normalized `leads` table.
 
 The browser queues events locally before sending them to `/api/v1/events`. Delivery is a serial drain. After every asynchronous response, it reads the current queue again and applies the outcome only to the matching `client_event_id`. A successful response removes that event; B/C/D appended while A was in flight remain pending and are drained next. Completion uses this same delivery path, including when it is queued during depth-100 delivery.
 
