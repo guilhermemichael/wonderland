@@ -1,26 +1,23 @@
+import os
 from datetime import datetime, timezone
+from threading import Lock
 from typing import Any, Literal
 from uuid import UUID, uuid4
-import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-app = FastAPI(title="WONDERLAND API", version="0.1.0", docs_url="/api/docs")
+app = FastAPI(title="WONDERLAND API", version="0.1.1", docs_url="/api/docs")
 cors_origins = [origin.strip() for origin in os.getenv("API_CORS_ORIGINS", "http://localhost:3000,http://127.0.0.1:3000").split(",") if origin.strip()]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=cors_origins,
-    allow_methods=["GET", "POST"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, allow_origins=cors_origins, allow_methods=["GET", "POST"], allow_headers=["*"])
 
 
 class EventIn(BaseModel):
+    client_event_id: UUID
     event_name: Literal[
         "page_view", "cta_click", "rabbit_hole_started", "scroll_depth",
-        "rabbit_hole_completed", "path_selected", "quiz_interaction", "conversion_submit"
+        "rabbit_hole_completed", "rabbit_hole_skipped", "path_selected"
     ]
     page: str
     client_sequence: int = Field(ge=1)
@@ -32,10 +29,12 @@ class EventIn(BaseModel):
 class EventOut(EventIn):
     event_id: UUID
     received_at: datetime
-    schema_version: str = "1.0"
+    schema_version: str = "1.1"
 
 
-events: dict[tuple[str, int], EventOut] = {}
+# Milestone 01 uses memory only. Durable uniqueness belongs to PostgreSQL in M02.
+events: dict[UUID, EventOut] = {}
+events_lock = Lock()
 
 
 @app.get("/api/v1/health")
@@ -45,14 +44,10 @@ def health() -> dict[str, str]:
 
 @app.post("/api/v1/events", response_model=EventOut, status_code=202)
 def ingest_event(event: EventIn) -> EventOut:
-    session_key = str(event.session_id or "anonymous")
-    dedupe_key = (session_key, event.client_sequence)
-    if dedupe_key in events:
-        return events[dedupe_key]
-    stored = EventOut(
-        **event.model_dump(),
-        event_id=uuid4(),
-        received_at=datetime.now(timezone.utc),
-    )
-    events[dedupe_key] = stored
-    return stored
+    with events_lock:
+        existing = events.get(event.client_event_id)
+        if existing:
+            return existing
+        stored = EventOut(**event.model_dump(), event_id=uuid4(), received_at=datetime.now(timezone.utc))
+        events[event.client_event_id] = stored
+        return stored

@@ -6,10 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint . --max-warnings=0",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@fontsource/cormorant-garamond": "^5.2.5",
+    "@fontsource/manrope": "^5.2.5",
     "gsap": "^3.13.0",
     "next": "^15.5.3",
     "react": "^19.1.1",
@@ -21,6 +24,7 @@
     "@types/react-dom": "^19.1.0",
     "eslint": "^9.35.0",
     "eslint-config-next": "^15.5.3",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.7"
   }
 }

@@ -15,7 +15,9 @@ Milestone 01 is consolidated under one repository root. The root `npm run dev` c
 
 - No PostgreSQL, Redis, queues, login or background workers in Milestone 01.
 - One master GSAP timeline controls the Rabbit Hole.
-- The client uses an anonymous local session ID and sends events to FastAPI.
+- The client uses an anonymous local session ID, persistent client sequence and UUID `client_event_id`; events are queued before delivery and retried at most three times per flush.
+- `rabbit_hole_started` means semantic entry, `rabbit_hole_completed` requires depth milestones, and `rabbit_hole_skipped` is explicit navigation. Skip is never completion.
+- Mobile Crossroads uses a Narrative Scene Switcher; previews do not emit selection.
 - Narrative accents remain separate from future analytics semantics.
 - The project remains an original, non-Disney literary interpretation.
 
@@ -38,5 +40,5 @@ npm test
 ## Known risks
 
 - The API event store is process memory and resets on restart by design.
-- The exact Cormorant Garamond and Manrope font files are not bundled yet; local-safe editorial/system fallbacks are used.
+- Cormorant Garamond and Manrope are bundled through Fontsource packages; local-safe fallbacks remain for resilience.
 - Formal WCAG AA and Core Web Vitals audits remain future validation work.

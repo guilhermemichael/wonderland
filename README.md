@@ -12,6 +12,7 @@ Milestone 01 delivers the integrated narrative foundation: Landing, Rabbit Hole,
 
 - Next.js 15, React 19 and TypeScript
 - GSAP + ScrollTrigger
+- Fontsource Cormorant Garamond + Manrope
 - FastAPI + Pydantic
 - Node.js scripts for one-command local orchestration
 - In-memory API event store for Milestone 01
@@ -84,18 +85,20 @@ wonderland/
 └── package.json    root commands
 ```
 
-The Rabbit Hole uses one master GSAP timeline with one ScrollTrigger instance. The client stores a small session queue and sends events to `POST /api/v1/events`. The API validates the event schema and deduplicates by `(session_id, client_sequence)`.
+The Rabbit Hole uses one master GSAP timeline with one ScrollTrigger instance. The client stores events locally before sending them to `POST /api/v1/events`. Each event has a UUID `client_event_id`; the API deduplicates by that UUID while `client_sequence` remains an ordering field.
 
 ## Analytics
 
 Currently emitted events:
 
 - `cta_click`
-- `rabbit_hole_started`
-- `scroll_depth` at 25, 50, 75 and 100
-- `path_selected`
+- `rabbit_hole_started` only on semantic entry
+- `scroll_depth` at 25, 50, 75 and 100 during a real traversal
+- `rabbit_hole_completed` only after narrative depth milestones
+- `rabbit_hole_skipped` for explicit skip navigation
+- `path_selected` only after a path CTA; mobile previews do not count
 
-The client keeps an anonymous session ID in local storage. No quiz, lead or conversion backend is implemented in this milestone.
+The queue removes accepted events, preserves failures, recovers on startup/focus/online and limits retries. The API store is process memory until PostgreSQL is implemented in Milestone 02. No quiz, lead or conversion backend is implemented in this milestone.
 
 ## Current milestone
 

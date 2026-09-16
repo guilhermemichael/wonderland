@@ -9,6 +9,6 @@
     "build": "npm --workspace apps/web run build",
     "lint": "npm --workspace apps/web run lint",
     "typecheck": "npm --workspace apps/web run typecheck",
-    "test": "npm run typecheck && node scripts/test-api.mjs"
+    "test": "npm run typecheck && npm --workspace apps/web run test && node scripts/test-api.mjs"
   }
 }

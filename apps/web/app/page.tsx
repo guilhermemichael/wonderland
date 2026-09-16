@@ -21,8 +21,8 @@ export default function Home() {
         </div>
         <div className="scroll-cue" aria-hidden="true">Scroll to follow ↓</div>
       </section>
-      <div id="rabbit-hole"><RabbitHole /></div>
-      <div id="crossroads"><Crossroads /></div>
+      <div id="rabbit-hole"><RabbitHole page="/" /></div>
+      <div id="crossroads"><Crossroads page="/" /></div>
       <footer className="footer-note">We're all mad here. / Marketing · Product · Engineering · MarTech</footer>
     </main>
   );
