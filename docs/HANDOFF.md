@@ -34,12 +34,19 @@ npm run test:regressions
 
 Browser regressions require a running production frontend, API and Playwright browser; setup and optional screenshot output are described in README. The final patch has six new analytics-module tests and seven browser tests. All six module cases failed on the initial implementation; navbar skip and hover contrast also failed against its production build before the patch. The focused browser suite now confirms all eight normal-flow events receive HTTP 202, completion survives depth-100 delivery, and exhausted queues recover on online/focus/reload.
 
-## Pending Milestone 02
+## Milestone 02 Implemented
 
-- Cheshire quiz and native accessible answer controls.
-- Server-authoritative scoring and tie-break rules.
-- PostgreSQL normalized state plus JSONB event stream.
-- Session recovery, result page, lead capture and conversion event.
+- Cheshire quiz with native question/answer IDs and partial progress recovery.
+- Server-authoritative scoring and deterministic tie-break rules (Q4 -> Q1 -> Q2 -> Q3).
+- PostgreSQL normalized state (`sessions`, `quiz_answers`, `quiz_submissions`, `leads`) plus append-only event stream (`campaign_events`).
+- Persistent database-level idempotency by `client_event_id` with concurrent collision safety.
+- Lead capture with explicit marketing and privacy consent tracking, keeping PII segregated from generic analytics.
+- Alembic database migration system and Docker Compose for reproducible local PostgreSQL 16.
+
+## Pending Milestone 03
+
+- Marketing/performance analytics dashboard & BI visualization layer.
+- Lead routing & automated campaign follow-up integrations.
 
 ## Known risks
 
