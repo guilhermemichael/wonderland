@@ -12,6 +12,7 @@ Milestone 01 delivers the integrated narrative foundation: Landing, Rabbit Hole,
 
 - Next.js 15, React 19 and TypeScript
 - GSAP + ScrollTrigger
+- Fontsource Cormorant Garamond + Manrope
 - FastAPI + Pydantic
 - Node.js scripts for one-command local orchestration
 - In-memory API event store for Milestone 01
@@ -69,7 +70,8 @@ npm run dev:api    # API only
 npm run lint       # ESLint
 npm run typecheck  # TypeScript
 npm run build      # production build
-npm test           # typecheck + API smoke test
+npm test           # typecheck + queue regression tests + API smoke test
+npm run test:regressions # browser regressions; requires running web + API
 ```
 
 ## Architecture
@@ -84,18 +86,26 @@ wonderland/
 └── package.json    root commands
 ```
 
-The Rabbit Hole uses one master GSAP timeline with one ScrollTrigger instance. The client stores a small session queue and sends events to `POST /api/v1/events`. The API validates the event schema and deduplicates by `(session_id, client_sequence)`.
+The Rabbit Hole uses one master GSAP timeline with one ScrollTrigger instance. The client stores events locally before sending them to `POST /api/v1/events`. Each event has a UUID `client_event_id`; the API deduplicates by that UUID while `client_sequence` remains an ordering field.
 
 ## Analytics
 
 Currently emitted events:
 
 - `cta_click`
-- `rabbit_hole_started`
-- `scroll_depth` at 25, 50, 75 and 100
-- `path_selected`
+- `rabbit_hole_started` only on semantic entry
+- `scroll_depth` at 25, 50, 75 and 100 during a real traversal
+- `rabbit_hole_completed` only after narrative depth milestones
+- `rabbit_hole_skipped` for explicit skip navigation
+- `path_selected` only after a path CTA; mobile previews do not count
 
-The client keeps an anonymous session ID in local storage. No quiz, lead or conversion backend is implemented in this milestone.
+The serial queue reconciles each response against the latest localStorage state: an ACK removes only its `client_event_id`, preserving events appended during delivery. Each event gets up to three attempts per flush/recovery cycle, with 250ms/500ms waits. Exhausting a cycle leaves events pending; startup, focus or online starts a new eligible cycle. The stored failure count is diagnostic, never a permanent delivery cutoff. The API store is process memory until PostgreSQL is implemented in Milestone 02. No quiz, lead or conversion backend is implemented in this milestone.
+
+Navbar `Choose` and the internal skip link call the same synchronous Rabbit Hole operation before anchor scrolling. It emits skip once and suppresses fabricated traversal events; a completed experience cannot be retroactively skipped.
+
+### Focused browser regressions
+
+Install the test browser with `npx playwright install chromium`. Run `npm run build`, start the production frontend with `npm --workspace apps/web exec -- next start -H 127.0.0.1`, and start the API in another terminal with `npm run dev:api`. Then run `npm run test:regressions`. The suite uses real API responses and delays/aborts requests to reproduce the delivery failures. `WEB_URL` can override the default `http://127.0.0.1:3000`; `BROWSER_CHANNEL=msedge` selects an installed Edge browser (PowerShell: `$env:BROWSER_CHANNEL='msedge'`). Optional `EVIDENCE_DIR` saves the six desktop hover/focus screenshots outside the repository.
 
 ## Current milestone
 
@@ -107,7 +117,7 @@ Milestone 02 will add the Cheshire quiz, server-authoritative scoring, PostgreSQ
 
 ## Quality and accessibility
 
-The project uses semantic HTML, visible focus, keyboard-compatible links, reduced-motion support and responsive semantic reflow. Accessibility is not claimed as formal WCAG AA compliance until a dedicated audit is completed.
+The project uses semantic HTML, visible focus, keyboard-compatible links, reduced-motion support and responsive semantic reflow. Crossroads uses dark focus on Ivory at all breakpoints and light focus within active dark zones; hover and keyboard focus share surface, text and accent states. Accessibility is not claimed as formal WCAG AA compliance until a dedicated audit is completed.
 
 ## Synthetic data disclaimer
 

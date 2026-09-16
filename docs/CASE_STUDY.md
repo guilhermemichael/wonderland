@@ -6,7 +6,7 @@ How can a classic story become a measurable digital experience rather than a sta
 
 ## First release
 
-The first release establishes the landing invitation, the scroll-driven Rabbit Hole and the Crossroads choice architecture. It demonstrates the funnel from awareness to acquisition to interaction without pretending that synthetic portfolio metrics are campaign results.
+The first release establishes the landing invitation, the scroll-driven Rabbit Hole and the Crossroads choice architecture. It demonstrates the funnel from awareness to acquisition to interaction without pretending that synthetic portfolio metrics are campaign results. Milestone 01.1 hardens the same experience by separating entry, completion and skip semantics, adding retry-safe event identities and preserving mobile path discovery.
 
 ## Next evidence
 

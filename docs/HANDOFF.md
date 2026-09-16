@@ -13,10 +13,13 @@ Milestone 01 is consolidated under one repository root. The root `npm run dev` c
 
 ## Main decisions
 
-- No PostgreSQL, Redis, queues, login or background workers in Milestone 01.
+- No PostgreSQL, Redis, external queue services, login or background workers in Milestone 01; the browser has a localStorage event queue.
 - One master GSAP timeline controls the Rabbit Hole.
-- The client uses an anonymous local session ID and sends events to FastAPI.
+- The client uses an anonymous local session ID, persistent client sequence and UUID `client_event_id`. Serial delivery reads the latest queue after each response, preserving events added in flight and removing only the ACKed UUID. Each event has three attempts per recovery cycle; exhaustion leaves it pending and eligible for later startup/focus/online recovery.
+- `rabbit_hole_started` means semantic entry, `rabbit_hole_completed` requires depth milestones, and `rabbit_hole_skipped` is explicit navigation. Navbar Choose and internal skip share one synchronous operation before scrolling. Skip is never completion; an already completed scene ignores later skip requests.
+- Mobile Crossroads uses a Narrative Scene Switcher; previews do not emit selection.
 - Narrative accents remain separate from future analytics semantics.
+- Desktop hover/focus-within share active path treatment. Crossroads focus is dark on Ivory and light on dark zones at all widths.
 - The project remains an original, non-Disney literary interpretation.
 
 ## Commands
@@ -26,7 +29,10 @@ npm install
 cp .env.example .env
 npm run dev
 npm test
+npm run test:regressions
 ```
+
+Browser regressions require a running production frontend, API and Playwright browser; setup and optional screenshot output are described in README. The final patch has six new analytics-module tests and seven browser tests. All six module cases failed on the initial implementation; navbar skip and hover contrast also failed against its production build before the patch. The focused browser suite now confirms all eight normal-flow events receive HTTP 202, completion survives depth-100 delivery, and exhausted queues recover on online/focus/reload.
 
 ## Pending Milestone 02
 
@@ -38,5 +44,5 @@ npm test
 ## Known risks
 
 - The API event store is process memory and resets on restart by design.
-- The exact Cormorant Garamond and Manrope font files are not bundled yet; local-safe editorial/system fallbacks are used.
+- Cormorant Garamond and Manrope are bundled through Fontsource packages; local-safe fallbacks remain for resilience.
 - Formal WCAG AA and Core Web Vitals audits remain future validation work.
