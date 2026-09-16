@@ -1,0 +1,576 @@
+{
+  "beforeReload": [
+    {
+      "event_name": "rabbit_hole_started",
+      "page": "/rabbit-hole",
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 1,
+      "occurred_at": "2026-09-16T05:11:43.288Z"
+    },
+    {
+      "event_name": "cta_click",
+      "page": "/",
+      "properties": {
+        "cta": "follow_the_white_rabbit"
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 2,
+      "occurred_at": "2026-09-16T05:11:44.021Z"
+    }
+  ],
+  "afterReload": [
+    {
+      "event_name": "rabbit_hole_started",
+      "page": "/rabbit-hole",
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 1,
+      "occurred_at": "2026-09-16T05:11:43.288Z"
+    },
+    {
+      "event_name": "cta_click",
+      "page": "/",
+      "properties": {
+        "cta": "follow_the_white_rabbit"
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 2,
+      "occurred_at": "2026-09-16T05:11:44.021Z"
+    },
+    {
+      "event_name": "rabbit_hole_started",
+      "page": "/rabbit-hole",
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 1,
+      "occurred_at": "2026-09-16T05:11:45.628Z"
+    },
+    {
+      "event_name": "scroll_depth",
+      "page": "/rabbit-hole",
+      "properties": {
+        "threshold": 25
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 2,
+      "occurred_at": "2026-09-16T05:11:46.337Z"
+    },
+    {
+      "event_name": "scroll_depth",
+      "page": "/rabbit-hole",
+      "properties": {
+        "threshold": 50
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 3,
+      "occurred_at": "2026-09-16T05:11:46.346Z"
+    },
+    {
+      "event_name": "scroll_depth",
+      "page": "/rabbit-hole",
+      "properties": {
+        "threshold": 75
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 4,
+      "occurred_at": "2026-09-16T05:11:46.354Z"
+    },
+    {
+      "event_name": "scroll_depth",
+      "page": "/rabbit-hole",
+      "properties": {
+        "threshold": 100
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 5,
+      "occurred_at": "2026-09-16T05:11:46.361Z"
+    },
+    {
+      "event_name": "path_selected",
+      "page": "/crossroads",
+      "properties": {
+        "path": "rabbit"
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 6,
+      "occurred_at": "2026-09-16T05:11:46.746Z"
+    }
+  ],
+  "responses": [
+    {
+      "request": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.288Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.288000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {},
+        "event_id": "862f7eed-adad-4ee2-ba38-7b9979910687",
+        "received_at": "2026-09-16T05:11:43.299773Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:11:44.021Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "cta_click",
+        "page": "/",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:11:44.021000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "event_id": "0a609618-7996-400d-a5de-814ba0e03387",
+        "received_at": "2026-09-16T05:11:44.019346Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:45.628Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.288000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {},
+        "event_id": "862f7eed-adad-4ee2-ba38-7b9979910687",
+        "received_at": "2026-09-16T05:11:43.299773Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:48.274Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.288000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {},
+        "event_id": "862f7eed-adad-4ee2-ba38-7b9979910687",
+        "received_at": "2026-09-16T05:11:43.299773Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:52.911Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.288000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {},
+        "event_id": "862f7eed-adad-4ee2-ba38-7b9979910687",
+        "received_at": "2026-09-16T05:11:43.299773Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:53.937Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.288000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {},
+        "event_id": "862f7eed-adad-4ee2-ba38-7b9979910687",
+        "received_at": "2026-09-16T05:11:43.299773Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 25
+        },
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:11:55.328Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "cta_click",
+        "page": "/",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:11:44.021000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "event_id": "0a609618-7996-400d-a5de-814ba0e03387",
+        "received_at": "2026-09-16T05:11:44.019346Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 50
+        },
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:11:55.412Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:11:46.346000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {
+          "threshold": 50
+        },
+        "event_id": "73e47f5e-1623-44b9-a3d9-2620c8366d73",
+        "received_at": "2026-09-16T05:11:46.348239Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 75
+        },
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 4,
+        "occurred_at": "2026-09-16T05:11:55.474Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "client_sequence": 4,
+        "occurred_at": "2026-09-16T05:11:46.354000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {
+          "threshold": 75
+        },
+        "event_id": "94996947-556d-410b-9b08-443052e428c4",
+        "received_at": "2026-09-16T05:11:46.356541Z",
+        "schema_version": "1.0"
+      }
+    },
+    {
+      "request": {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 100
+        },
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "client_sequence": 5,
+        "occurred_at": "2026-09-16T05:11:55.590Z"
+      },
+      "status": 202,
+      "response": {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "client_sequence": 5,
+        "occurred_at": "2026-09-16T05:11:46.361000Z",
+        "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+        "properties": {
+          "threshold": 100
+        },
+        "event_id": "1c0315f5-8207-48f7-a9b3-89a5a045e793",
+        "received_at": "2026-09-16T05:11:46.364610Z",
+        "schema_version": "1.0"
+      }
+    }
+  ],
+  "direct": [
+    {
+      "path": "/rabbit-hole",
+      "text": "THRESHOLD / 01\n\nDown?\nOr up? Does it matter?\nlate\na key to somewhere\n?",
+      "links": []
+    },
+    {
+      "path": "/crossroads",
+      "text": "THE CROSSROADS / 02\n\nWhich path will you choose?\n01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗\n02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗\n03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+      "links": [
+        {
+          "text": "Explore ↗",
+          "href": "/rabbit"
+        },
+        {
+          "text": "Take a seat ↗",
+          "href": "/hatter"
+        },
+        {
+          "text": "Ask the cat ↗",
+          "href": "/cheshire"
+        }
+      ]
+    },
+    {
+      "path": "/cheshire/quiz",
+      "text": "THE CHESHIRE CAT / QUIZ PREPARATION\nQuestions are much more fun.\n\nThe editorial conversation and server-authoritative scoring arrive in Milestone 02.\n\nRETURN TO THE CROSSROADS\n↗",
+      "links": [
+        {
+          "text": "Return to the crossroads ↗",
+          "href": "/crossroads"
+        }
+      ]
+    }
+  ],
+  "fonts": {
+    ".hero-title": {
+      "fonts": [
+        {
+          "familyName": "Georgia",
+          "postScriptName": "Georgia-Italic",
+          "isCustomFont": false,
+          "glyphCount": 5
+        },
+        {
+          "familyName": "Georgia",
+          "postScriptName": "Georgia",
+          "isCustomFont": false,
+          "glyphCount": 18
+        }
+      ]
+    },
+    ".primary-cta": {
+      "fonts": [
+        {
+          "familyName": "Segoe UI Symbol",
+          "postScriptName": "SegoeUISymbol",
+          "isCustomFont": false,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Segoe UI Black",
+          "postScriptName": "SegoeUIBlack",
+          "isCustomFont": false,
+          "glyphCount": 23
+        }
+      ]
+    }
+  },
+  "skip": [
+    {
+      "event_name": "rabbit_hole_started",
+      "page": "/rabbit-hole",
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 1,
+      "occurred_at": "2026-09-16T05:11:53.937Z"
+    },
+    {
+      "event_name": "scroll_depth",
+      "page": "/rabbit-hole",
+      "properties": {
+        "threshold": 25
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 2,
+      "occurred_at": "2026-09-16T05:11:55.328Z"
+    },
+    {
+      "event_name": "scroll_depth",
+      "page": "/rabbit-hole",
+      "properties": {
+        "threshold": 50
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 3,
+      "occurred_at": "2026-09-16T05:11:55.412Z"
+    },
+    {
+      "event_name": "scroll_depth",
+      "page": "/rabbit-hole",
+      "properties": {
+        "threshold": 75
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 4,
+      "occurred_at": "2026-09-16T05:11:55.474Z"
+    },
+    {
+      "event_name": "scroll_depth",
+      "page": "/rabbit-hole",
+      "properties": {
+        "threshold": 100
+      },
+      "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+      "client_sequence": 5,
+      "occurred_at": "2026-09-16T05:11:55.590Z"
+    }
+  ],
+  "focused": {
+    "background": "rgba(0, 0, 0, 0)",
+    "outline": "rgb(193, 154, 88) solid 2px",
+    "hit": {
+      "x": 108,
+      "y": 666.375,
+      "width": 75.921875,
+      "height": 22,
+      "top": 666.375,
+      "right": 183.921875,
+      "bottom": 688.375,
+      "left": 108
+    },
+    "numberColor": "rgb(134, 182, 207)"
+  },
+  "hover": {
+    "background": "rgb(16, 21, 31)",
+    "numberColor": "rgb(134, 182, 207)"
+  },
+  "queue": {
+    "pending": [
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:01.983Z"
+      }
+    ],
+    "confirmed": [
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:01.983Z"
+      }
+    ],
+    "acks": [
+      202,
+      202,
+      202
+    ],
+    "failed": [
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:01.983Z"
+      },
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:12:03.970Z"
+      }
+    ],
+    "retriesIn4s": 0,
+    "afterRecovery": [
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:01.983Z"
+      },
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:12:03.970Z"
+      }
+    ],
+    "afterStartup": [
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:01.983Z"
+      },
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:12:03.970Z"
+      },
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "bc0bb44b-edd2-4dcf-9a3a-97b1bc47be93",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:10.717Z"
+      }
+    ]
+  }
+}

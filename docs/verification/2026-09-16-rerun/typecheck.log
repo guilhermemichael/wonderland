@@ -1,0 +1,4 @@
+npm notice run typecheck
+npm notice run npm --workspace apps/web run typecheck
+npm notice run wonderland-web@0.1.0 typecheck
+npm notice run tsc --noEmit

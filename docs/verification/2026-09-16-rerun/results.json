@@ -1,0 +1,685 @@
+{
+  "verdict": "MILESTONE 01 VERIFICATION FAILED",
+  "results": [
+    {
+      "id": 1,
+      "check": "Rabbit Hole continuity",
+      "result": "FAIL",
+      "evidence": [
+        {
+          "viewport": {
+            "name": "desktop",
+            "width": 1440,
+            "height": 900
+          },
+          "stickyTops": [
+            0,
+            -675,
+            -1350,
+            -2025,
+            -2700
+          ],
+          "widths": [
+            1440,
+            1440,
+            1440,
+            1440,
+            1440
+          ]
+        },
+        {
+          "viewport": {
+            "name": "tablet",
+            "width": 768,
+            "height": 1024
+          },
+          "stickyTops": [
+            0,
+            -768,
+            -1536,
+            -2304,
+            -3072
+          ],
+          "widths": [
+            768,
+            768,
+            768,
+            768,
+            768
+          ]
+        },
+        {
+          "viewport": {
+            "name": "mobile390",
+            "width": 390,
+            "height": 844
+          },
+          "stickyTops": [
+            0,
+            -633,
+            -1266,
+            -1899,
+            -2532
+          ],
+          "widths": [
+            390,
+            390,
+            390,
+            390,
+            390
+          ]
+        },
+        {
+          "viewport": {
+            "name": "mobile375",
+            "width": 375,
+            "height": 812
+          },
+          "stickyTops": [
+            0,
+            -609,
+            -1218,
+            -1827,
+            -2436
+          ],
+          "widths": [
+            375,
+            375,
+            375,
+            375,
+            375
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "check": "Direct route continuity",
+      "result": "FAIL",
+      "evidence": []
+    },
+    {
+      "id": 3,
+      "check": "Same event retry",
+      "result": "PASS",
+      "evidence": {
+        "id": "791a008c-8f98-402e-9639-44f230b0d08a",
+        "clientEventIdSupported": false
+      }
+    },
+    {
+      "id": 4,
+      "check": "Different events",
+      "result": "FAIL",
+      "evidence": {
+        "status": 202,
+        "body": {
+          "event_name": "cta_click",
+          "page": "/",
+          "client_sequence": 1,
+          "occurred_at": "2026-09-16T05:10:40.417000Z",
+          "session_id": "1d600e9d-5815-47bd-b4fc-2cfc7f8a3e1f",
+          "properties": {
+            "test": "m01.1-gate"
+          },
+          "event_id": "791a008c-8f98-402e-9639-44f230b0d08a",
+          "received_at": "2026-09-16T05:10:40.600969Z",
+          "schema_version": "1.0"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "check": "Reload uniqueness",
+      "result": "FAIL",
+      "evidence": [
+        {
+          "request": {
+            "event_name": "scroll_depth",
+            "page": "/rabbit-hole",
+            "properties": {
+              "threshold": 25
+            },
+            "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+            "client_sequence": 2,
+            "occurred_at": "2026-09-16T05:11:55.328Z"
+          },
+          "status": 202,
+          "response": {
+            "event_name": "cta_click",
+            "page": "/",
+            "client_sequence": 2,
+            "occurred_at": "2026-09-16T05:11:44.021000Z",
+            "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+            "properties": {
+              "cta": "follow_the_white_rabbit"
+            },
+            "event_id": "0a609618-7996-400d-a5de-814ba0e03387",
+            "received_at": "2026-09-16T05:11:44.019346Z",
+            "schema_version": "1.0"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "check": "Concurrent requests",
+      "result": "PASS",
+      "evidence": {
+        "distinctResponseIds": 20,
+        "distinctStatuses": [
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202
+        ],
+        "sameEventResponseIds": 1,
+        "sameStatuses": [
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202,
+          202
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "check": "Semantic start",
+      "result": "FAIL",
+      "evidence": [
+        {
+          "viewport": "desktop",
+          "before": [
+            {
+              "event_name": "rabbit_hole_started",
+              "page": "/rabbit-hole",
+              "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+              "client_sequence": 1,
+              "occurred_at": "2026-09-16T05:11:43.280Z"
+            }
+          ]
+        },
+        {
+          "viewport": "tablet",
+          "before": [
+            {
+              "event_name": "rabbit_hole_started",
+              "page": "/rabbit-hole",
+              "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+              "client_sequence": 1,
+              "occurred_at": "2026-09-16T05:11:57.995Z"
+            }
+          ]
+        },
+        {
+          "viewport": "mobile390",
+          "before": [
+            {
+              "event_name": "rabbit_hole_started",
+              "page": "/rabbit-hole",
+              "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+              "client_sequence": 1,
+              "occurred_at": "2026-09-16T05:12:11.296Z"
+            }
+          ]
+        },
+        {
+          "viewport": "mobile375",
+          "before": [
+            {
+              "event_name": "rabbit_hole_started",
+              "page": "/rabbit-hole",
+              "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+              "client_sequence": 1,
+              "occurred_at": "2026-09-16T05:12:24.545Z"
+            }
+          ]
+        },
+        {
+          "viewport": "reduced",
+          "before": [
+            {
+              "event_name": "rabbit_hole_started",
+              "page": "/rabbit-hole",
+              "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+              "client_sequence": 1,
+              "occurred_at": "2026-09-16T05:12:37.365Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "check": "Completion event",
+      "result": "FAIL",
+      "evidence": [
+        "rabbit_hole_started",
+        "cta_click",
+        "scroll_depth",
+        "scroll_depth",
+        "scroll_depth",
+        "scroll_depth",
+        "path_selected"
+      ]
+    },
+    {
+      "id": 9,
+      "check": "Skip semantics",
+      "result": "FAIL",
+      "evidence": [
+        {
+          "event_name": "rabbit_hole_started",
+          "page": "/rabbit-hole",
+          "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+          "client_sequence": 1,
+          "occurred_at": "2026-09-16T05:11:53.937Z"
+        },
+        {
+          "event_name": "scroll_depth",
+          "page": "/rabbit-hole",
+          "properties": {
+            "threshold": 25
+          },
+          "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+          "client_sequence": 2,
+          "occurred_at": "2026-09-16T05:11:55.328Z"
+        },
+        {
+          "event_name": "scroll_depth",
+          "page": "/rabbit-hole",
+          "properties": {
+            "threshold": 50
+          },
+          "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+          "client_sequence": 3,
+          "occurred_at": "2026-09-16T05:11:55.412Z"
+        },
+        {
+          "event_name": "scroll_depth",
+          "page": "/rabbit-hole",
+          "properties": {
+            "threshold": 75
+          },
+          "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+          "client_sequence": 4,
+          "occurred_at": "2026-09-16T05:11:55.474Z"
+        },
+        {
+          "event_name": "scroll_depth",
+          "page": "/rabbit-hole",
+          "properties": {
+            "threshold": 100
+          },
+          "session_id": "2ad74397-4681-492a-8b72-0d6ef59c25f1",
+          "client_sequence": 5,
+          "occurred_at": "2026-09-16T05:11:55.590Z"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "check": "Normal analytics flow",
+      "result": "FAIL",
+      "evidence": [
+        "rabbit_hole_started",
+        "cta_click",
+        "scroll_depth",
+        "scroll_depth",
+        "scroll_depth",
+        "scroll_depth",
+        "path_selected"
+      ]
+    },
+    {
+      "id": 11,
+      "check": "Page context",
+      "result": "FAIL",
+      "evidence": [
+        {
+          "route": "/",
+          "events": [
+            {
+              "event_name": "rabbit_hole_started",
+              "page": "/rabbit-hole",
+              "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+              "client_sequence": 1,
+              "occurred_at": "2026-09-16T05:12:14.600Z"
+            },
+            {
+              "event_name": "path_selected",
+              "page": "/crossroads",
+              "properties": {
+                "path": "cheshire"
+              },
+              "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+              "client_sequence": 2,
+              "occurred_at": "2026-09-16T05:12:15.268Z"
+            },
+            {
+              "event_name": "scroll_depth",
+              "page": "/rabbit-hole",
+              "properties": {
+                "threshold": 25
+              },
+              "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+              "client_sequence": 3,
+              "occurred_at": "2026-09-16T05:12:15.273Z"
+            },
+            {
+              "event_name": "scroll_depth",
+              "page": "/rabbit-hole",
+              "properties": {
+                "threshold": 50
+              },
+              "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+              "client_sequence": 4,
+              "occurred_at": "2026-09-16T05:12:15.274Z"
+            },
+            {
+              "event_name": "scroll_depth",
+              "page": "/rabbit-hole",
+              "properties": {
+                "threshold": 75
+              },
+              "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+              "client_sequence": 5,
+              "occurred_at": "2026-09-16T05:12:15.274Z"
+            },
+            {
+              "event_name": "scroll_depth",
+              "page": "/rabbit-hole",
+              "properties": {
+                "threshold": 100
+              },
+              "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+              "client_sequence": 6,
+              "occurred_at": "2026-09-16T05:12:15.275Z"
+            }
+          ]
+        },
+        {
+          "route": "/crossroads",
+          "events": [
+            {
+              "event_name": "path_selected",
+              "page": "/crossroads",
+              "properties": {
+                "path": "cheshire"
+              },
+              "session_id": "3b48963d-6d65-4878-8a51-6dd0a247f0f7",
+              "client_sequence": 1,
+              "occurred_at": "2026-09-16T05:12:16.917Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "check": "Queue success",
+      "result": "FAIL",
+      "evidence": {
+        "pending": 1,
+        "confirmed": 1,
+        "acks": [
+          202,
+          202,
+          202
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "check": "Queue failure",
+      "result": "PASS",
+      "evidence": {
+        "pending": 2,
+        "retriesIn4s": 0
+      }
+    },
+    {
+      "id": 14,
+      "check": "Queue recovery",
+      "result": "FAIL",
+      "evidence": {
+        "afterRecovery": 2,
+        "afterStartup": 3
+      }
+    },
+    {
+      "id": 15,
+      "check": "Reduced motion",
+      "result": "FAIL",
+      "evidence": {
+        "normal": [
+          "matrix(1, 0, 0, 1, 0, -30)",
+          "matrix(-0.992757, -0.120137, 0.120137, -0.992757, 0, 205.85)",
+          "matrix(0.971134, 0.238533, -0.238533, 0.971134, 0, 441.7)",
+          "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+          "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)"
+        ],
+        "reduced": [
+          "matrix(1, 0, 0, 1, 0, -30)",
+          "matrix(-0.992757, -0.120137, 0.120137, -0.992757, 0, 205.85)",
+          "matrix(0.971134, 0.238533, -0.238533, 0.971134, 0, 441.7)",
+          "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+          "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)"
+        ],
+        "height": 3600
+      }
+    },
+    {
+      "id": 16,
+      "check": "Mobile Crossroads",
+      "result": "FAIL",
+      "evidence": [
+        {
+          "viewport": {
+            "name": "mobile390",
+            "width": 390,
+            "height": 844
+          },
+          "choices": [
+            {
+              "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+              "top": 307.1875,
+              "bottom": 609.78125
+            },
+            {
+              "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+              "top": 609.78125,
+              "bottom": 912.375
+            },
+            {
+              "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+              "top": 912.375,
+              "bottom": 1213.96875
+            }
+          ],
+          "previewControls": 0
+        },
+        {
+          "viewport": {
+            "name": "mobile375",
+            "width": 375,
+            "height": 812
+          },
+          "choices": [
+            {
+              "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+              "top": 307.1875,
+              "bottom": 609.78125
+            },
+            {
+              "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+              "top": 609.78125,
+              "bottom": 912.375
+            },
+            {
+              "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+              "top": 912.375,
+              "bottom": 1213.96875
+            }
+          ],
+          "previewControls": 0
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "check": "Desktop Crossroads",
+      "result": "PASS",
+      "evidence": {
+        "focus": [
+          {
+            "text": "Explore ↗",
+            "href": "/rabbit",
+            "top": 666.375,
+            "outline": "rgb(193, 154, 88) solid 2px"
+          },
+          {
+            "text": "Take a seat ↗",
+            "href": "/hatter",
+            "top": 666.375,
+            "outline": "rgb(193, 154, 88) solid 2px"
+          },
+          {
+            "text": "Ask the cat ↗",
+            "href": "/cheshire",
+            "top": 666.375,
+            "outline": "rgb(193, 154, 88) solid 2px"
+          }
+        ],
+        "keyboardDestination": "http://127.0.0.1:3000/cheshire"
+      }
+    },
+    {
+      "id": 18,
+      "check": "Typography",
+      "result": "FAIL",
+      "evidence": {
+        ".hero-title": {
+          "fonts": [
+            {
+              "familyName": "Georgia",
+              "postScriptName": "Georgia-Italic",
+              "isCustomFont": false,
+              "glyphCount": 5
+            },
+            {
+              "familyName": "Georgia",
+              "postScriptName": "Georgia",
+              "isCustomFont": false,
+              "glyphCount": 18
+            }
+          ]
+        },
+        ".primary-cta": {
+          "fonts": [
+            {
+              "familyName": "Segoe UI Symbol",
+              "postScriptName": "SegoeUISymbol",
+              "isCustomFont": false,
+              "glyphCount": 1
+            },
+            {
+              "familyName": "Segoe UI Black",
+              "postScriptName": "SegoeUIBlack",
+              "isCustomFont": false,
+              "glyphCount": 23
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 19,
+      "check": "Accessibility hardening",
+      "result": "FAIL",
+      "evidence": {
+        "focus": {
+          "background": "rgba(0, 0, 0, 0)",
+          "outline": "rgb(193, 154, 88) solid 2px",
+          "hit": {
+            "x": 108,
+            "y": 666.375,
+            "width": 75.921875,
+            "height": 22,
+            "top": 666.375,
+            "right": 183.921875,
+            "bottom": 688.375,
+            "left": 108
+          },
+          "numberColor": "rgb(134, 182, 207)"
+        },
+        "hover": {
+          "background": "rgb(16, 21, 31)",
+          "numberColor": "rgb(134, 182, 207)"
+        },
+        "contrast": {
+          "rabbitIvory": 1.84,
+          "focusIvory": 2.2
+        },
+        "note": "Existing contrast and reduced-motion defects reproduced; basic keyboard passes."
+      }
+    },
+    {
+      "id": 20,
+      "check": "Public copy",
+      "result": "FAIL",
+      "evidence": "THE CHESHIRE CAT / QUIZ PREPARATION\nQuestions are much more fun.\n\nThe editorial conversation and server-authoritative scoring arrive in Milestone 02.\n\nRETURN TO THE CROSSROADS\n↗"
+    },
+    {
+      "id": 21,
+      "check": "Documentation",
+      "result": "FAIL",
+      "evidence": "README claims reduced-motion support; runtime unchanged. Hardening report missing."
+    },
+    {
+      "id": 22,
+      "check": "Automated checks",
+      "result": "PASS",
+      "evidence": {
+        "lint": 0,
+        "typecheck": 0,
+        "test": 0,
+        "build": 0,
+        "pythonCompile": 0,
+        "note": "Observed process exit codes; logs saved beside results."
+      }
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "contract": {
+    "properties": {
+      "event_name": {
+        "type": "string",
+        "enum": [
+          "page_view",
+          "cta_click",
+          "rabbit_hole_started",
+          "scroll_depth",
+          "rabbit_hole_completed",
+          "path_selected",
+          "quiz_interaction",
+          "conversion_submit"
+        ],
+        "title": "Event Name"
+      },
+      "page": {
+        "type": "string",
+        "title": "Page"
+      },
+      "client_sequence": {
+        "type": "integer",
+        "minimum": 1,
+        "title": "Client Sequence"
+      },
+      "occurred_at": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Occurred At"
+      },
+      "session_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Session Id"
+      },
+      "properties": {
+        "additionalProperties": true,
+        "type": "object",
+        "title": "Properties"
+      }
+    },
+    "type": "object",
+    "required": [
+      "event_name",
+      "page",
+      "client_sequence",
+      "occurred_at"
+    ],
+    "title": "EventIn"
+  },
+  "first": {
+    "status": 202,
+    "body": {
+      "event_name": "cta_click",
+      "page": "/",
+      "client_sequence": 1,
+      "occurred_at": "2026-09-16T05:10:40.417000Z",
+      "session_id": "1d600e9d-5815-47bd-b4fc-2cfc7f8a3e1f",
+      "properties": {
+        "test": "m01.1-gate"
+      },
+      "event_id": "791a008c-8f98-402e-9639-44f230b0d08a",
+      "received_at": "2026-09-16T05:10:40.600969Z",
+      "schema_version": "1.0"
+    }
+  },
+  "retry": {
+    "status": 202,
+    "body": {
+      "event_name": "cta_click",
+      "page": "/",
+      "client_sequence": 1,
+      "occurred_at": "2026-09-16T05:10:40.417000Z",
+      "session_id": "1d600e9d-5815-47bd-b4fc-2cfc7f8a3e1f",
+      "properties": {
+        "test": "m01.1-gate"
+      },
+      "event_id": "791a008c-8f98-402e-9639-44f230b0d08a",
+      "received_at": "2026-09-16T05:10:40.600969Z",
+      "schema_version": "1.0"
+    }
+  },
+  "differentEventSameSequence": {
+    "status": 202,
+    "body": {
+      "event_name": "cta_click",
+      "page": "/",
+      "client_sequence": 1,
+      "occurred_at": "2026-09-16T05:10:40.417000Z",
+      "session_id": "1d600e9d-5815-47bd-b4fc-2cfc7f8a3e1f",
+      "properties": {
+        "test": "m01.1-gate"
+      },
+      "event_id": "791a008c-8f98-402e-9639-44f230b0d08a",
+      "received_at": "2026-09-16T05:10:40.600969Z",
+      "schema_version": "1.0"
+    }
+  },
+  "concurrency": {
+    "distinctResponseIds": 20,
+    "distinctStatuses": [
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202
+    ],
+    "sameEventResponseIds": 1,
+    "sameStatuses": [
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202,
+      202
+    ]
+  }
+}

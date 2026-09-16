@@ -1,0 +1,38 @@
+npm notice run build
+npm notice run npm --workspace apps/web run build
+npm notice run wonderland-web@0.1.0 build
+npm notice run next build
+   ▲ Next.js 15.5.25
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 21.7s
+   Linting and checking validity of types ...
+
+ ⚠ The Next.js plugin was not detected in your ESLint configuration. See https://nextjs.org/docs/app/api-reference/config/eslint#migrating-existing-config
+   Collecting page data ...
+   Generating static pages (0/10) ...
+   Generating static pages (2/10)
+   Generating static pages (4/10)
+   Generating static pages (7/10)
+ ✓ Generating static pages (10/10)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    2.43 kB         107 kB
+├ ○ /_not-found                            994 B         103 kB
+├ ● /[path]                                164 B         105 kB
+├   ├ /rabbit
+├   ├ /hatter
+├   └ /cheshire
+├ ○ /cheshire/quiz                         164 B         105 kB
+├ ○ /crossroads                          1.14 kB         103 kB
+└ ○ /rabbit-hole                         1.51 kB         103 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/710a83d3-2e079fffa0c950ca.js  54.2 kB
+  ├ chunks/826-d8ab7d18ca4bd826.js       45.3 kB
+  └ other shared chunks (total)          2.07 kB
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)

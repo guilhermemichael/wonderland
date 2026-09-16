@@ -1,0 +1,106 @@
+{
+  "direct": [
+    {
+      "path": "/rabbit-hole",
+      "text": "THRESHOLD / 01\n\nDown?\nOr up? Does it matter?\nlate\na key to somewhere\n?",
+      "links": []
+    },
+    {
+      "path": "/crossroads",
+      "text": "THE CROSSROADS / 02\n\nWhich path will you choose?\n01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗\n02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗\n03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+      "links": [
+        {
+          "text": "Explore ↗",
+          "href": "/rabbit"
+        },
+        {
+          "text": "Take a seat ↗",
+          "href": "/hatter"
+        },
+        {
+          "text": "Ask the cat ↗",
+          "href": "/cheshire"
+        }
+      ]
+    },
+    {
+      "path": "/cheshire/quiz",
+      "text": "THE CHESHIRE CAT / QUIZ PREPARATION\nQuestions are much more fun.\n\nThe editorial conversation and server-authoritative scoring arrive in Milestone 02.\n\nRETURN TO THE CROSSROADS\n↗",
+      "links": [
+        {
+          "text": "Return to the crossroads ↗",
+          "href": "/crossroads"
+        }
+      ]
+    }
+  ],
+  "fonts": {
+    ".hero-title": {
+      "fonts": [
+        {
+          "familyName": "Georgia",
+          "postScriptName": "Georgia-Italic",
+          "isCustomFont": false,
+          "glyphCount": 5
+        },
+        {
+          "familyName": "Georgia",
+          "postScriptName": "Georgia",
+          "isCustomFont": false,
+          "glyphCount": 18
+        }
+      ]
+    },
+    ".primary-cta": {
+      "fonts": [
+        {
+          "familyName": "Segoe UI Symbol",
+          "postScriptName": "SegoeUISymbol",
+          "isCustomFont": false,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Segoe UI Black",
+          "postScriptName": "SegoeUIBlack",
+          "isCustomFont": false,
+          "glyphCount": 23
+        }
+      ]
+    }
+  },
+  "focused": {
+    "background": "rgba(0, 0, 0, 0)",
+    "outline": "rgb(193, 154, 88) solid 2px",
+    "hit": {
+      "x": 108,
+      "y": 666.375,
+      "width": 75.921875,
+      "height": 22,
+      "top": 666.375,
+      "right": 183.921875,
+      "bottom": 688.375,
+      "left": 108
+    },
+    "numberColor": "rgb(134, 182, 207)"
+  },
+  "hover": {
+    "background": "rgb(16, 21, 31)",
+    "numberColor": "rgb(134, 182, 207)"
+  },
+  "skip": [
+    "rabbit_hole_started:",
+    "scroll_depth:25",
+    "scroll_depth:50",
+    "scroll_depth:75",
+    "scroll_depth:100"
+  ],
+  "queueLengths": {
+    "pending": 1,
+    "confirmed": 1,
+    "acks": 3,
+    "failed": 2,
+    "afterRecovery": 2,
+    "afterStartup": 3
+  },
+  "retriesIn4s": 0
+}

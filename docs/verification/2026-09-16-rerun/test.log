@@ -1,0 +1,7 @@
+npm notice run test
+npm notice run npm run typecheck && node scripts/test-api.mjs
+npm notice run typecheck
+npm notice run npm --workspace apps/web run typecheck
+npm notice run wonderland-web@0.1.0 typecheck
+npm notice run tsc --noEmit
+API smoke test passed: health, event ingestion and duplicate idempotency.

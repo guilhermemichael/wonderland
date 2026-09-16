@@ -1,0 +1,573 @@
+[
+  {
+    "cfg": {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.280Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 900,
+        "stickyTop": 0,
+        "title": "Down?",
+        "width": 1440
+      },
+      {
+        "y": 1575,
+        "stickyTop": -675,
+        "title": "Down?",
+        "width": 1440
+      },
+      {
+        "y": 2250,
+        "stickyTop": -1350,
+        "title": "Down?",
+        "width": 1440
+      },
+      {
+        "y": 2925,
+        "stickyTop": -2025,
+        "title": "Curiouser and curiouser.",
+        "width": 1440
+      },
+      {
+        "y": 3600,
+        "stickyTop": -2700,
+        "title": "Welcome to Wonderland.",
+        "width": 1440
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      }
+    ],
+    "eventNames": [
+      [
+        "rabbit_hole_started",
+        null,
+        "/rabbit-hole"
+      ],
+      [
+        "cta_click",
+        {
+          "cta": "follow_the_white_rabbit"
+        },
+        "/"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 25
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 50
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 75
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 100
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "path_selected",
+        {
+          "path": "rabbit"
+        },
+        "/crossroads"
+      ]
+    ]
+  },
+  {
+    "cfg": {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:57.995Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 1024,
+        "stickyTop": 0,
+        "title": "Down?",
+        "width": 768
+      },
+      {
+        "y": 1792,
+        "stickyTop": -768,
+        "title": "Down?",
+        "width": 768
+      },
+      {
+        "y": 2560,
+        "stickyTop": -1536,
+        "title": "Down?",
+        "width": 768
+      },
+      {
+        "y": 3328,
+        "stickyTop": -2304,
+        "title": "Curiouser and curiouser.",
+        "width": 768
+      },
+      {
+        "y": 4096,
+        "stickyTop": -3072,
+        "title": "Welcome to Wonderland.",
+        "width": 768
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 324.75,
+        "bottom": 697.140625
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 324.75,
+        "bottom": 697.140625
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 324.75,
+        "bottom": 697.140625
+      }
+    ],
+    "eventNames": [
+      [
+        "rabbit_hole_started",
+        null,
+        "/rabbit-hole"
+      ],
+      [
+        "cta_click",
+        {
+          "cta": "follow_the_white_rabbit"
+        },
+        "/"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 25
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 50
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 75
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 100
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "path_selected",
+        {
+          "path": "rabbit"
+        },
+        "/crossroads"
+      ]
+    ]
+  },
+  {
+    "cfg": {
+      "name": "mobile390",
+      "width": 390,
+      "height": 844
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:11.296Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 844,
+        "stickyTop": 0,
+        "title": "Down?",
+        "width": 390
+      },
+      {
+        "y": 1477,
+        "stickyTop": -633,
+        "title": "Down?",
+        "width": 390
+      },
+      {
+        "y": 2110,
+        "stickyTop": -1266,
+        "title": "Down?",
+        "width": 390
+      },
+      {
+        "y": 2743,
+        "stickyTop": -1899,
+        "title": "Curiouser and curiouser.",
+        "width": 390
+      },
+      {
+        "y": 3376,
+        "stickyTop": -2532,
+        "title": "Welcome to Wonderland.",
+        "width": 390
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 307.1875,
+        "bottom": 609.78125
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 609.78125,
+        "bottom": 912.375
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 912.375,
+        "bottom": 1213.96875
+      }
+    ],
+    "eventNames": [
+      [
+        "rabbit_hole_started",
+        null,
+        "/rabbit-hole"
+      ],
+      [
+        "cta_click",
+        {
+          "cta": "follow_the_white_rabbit"
+        },
+        "/"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 25
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 50
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 75
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 100
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "path_selected",
+        {
+          "path": "rabbit"
+        },
+        "/crossroads"
+      ]
+    ]
+  },
+  {
+    "cfg": {
+      "name": "mobile375",
+      "width": 375,
+      "height": 812
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:24.545Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 812,
+        "stickyTop": 0,
+        "title": "Down?",
+        "width": 375
+      },
+      {
+        "y": 1421,
+        "stickyTop": -609,
+        "title": "Down?",
+        "width": 375
+      },
+      {
+        "y": 2030,
+        "stickyTop": -1218,
+        "title": "Down?",
+        "width": 375
+      },
+      {
+        "y": 2639,
+        "stickyTop": -1827,
+        "title": "Curiouser and curiouser.",
+        "width": 375
+      },
+      {
+        "y": 3248,
+        "stickyTop": -2436,
+        "title": "Welcome to Wonderland.",
+        "width": 375
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 307.1875,
+        "bottom": 609.78125
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 609.78125,
+        "bottom": 912.375
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 912.375,
+        "bottom": 1213.96875
+      }
+    ],
+    "eventNames": [
+      [
+        "rabbit_hole_started",
+        null,
+        "/rabbit-hole"
+      ],
+      [
+        "cta_click",
+        {
+          "cta": "follow_the_white_rabbit"
+        },
+        "/"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 25
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 50
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 75
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 100
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "path_selected",
+        {
+          "path": "rabbit"
+        },
+        "/crossroads"
+      ]
+    ]
+  },
+  {
+    "cfg": {
+      "name": "reduced",
+      "width": 1440,
+      "height": 900,
+      "reducedMotion": "reduce"
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:37.365Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 900,
+        "stickyTop": 0,
+        "title": "Down?",
+        "width": 1440
+      },
+      {
+        "y": 1575,
+        "stickyTop": -675,
+        "title": "Down?",
+        "width": 1440
+      },
+      {
+        "y": 2250,
+        "stickyTop": -1350,
+        "title": "Down?",
+        "width": 1440
+      },
+      {
+        "y": 2925,
+        "stickyTop": -2025,
+        "title": "Curiouser and curiouser.",
+        "width": 1440
+      },
+      {
+        "y": 3600,
+        "stickyTop": -2700,
+        "title": "Welcome to Wonderland.",
+        "width": 1440
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      }
+    ],
+    "eventNames": [
+      [
+        "rabbit_hole_started",
+        null,
+        "/rabbit-hole"
+      ],
+      [
+        "cta_click",
+        {
+          "cta": "follow_the_white_rabbit"
+        },
+        "/"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 25
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 50
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 75
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "scroll_depth",
+        {
+          "threshold": 100
+        },
+        "/rabbit-hole"
+      ],
+      [
+        "path_selected",
+        {
+          "path": "rabbit"
+        },
+        "/crossroads"
+      ]
+    ]
+  }
+]

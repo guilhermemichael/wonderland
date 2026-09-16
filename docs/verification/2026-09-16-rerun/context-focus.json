@@ -1,0 +1,102 @@
+[
+  {
+    "route": "/",
+    "events": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:14.600Z"
+      },
+      {
+        "event_name": "path_selected",
+        "page": "/crossroads",
+        "properties": {
+          "path": "cheshire"
+        },
+        "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:15.268Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 25
+        },
+        "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:12:15.273Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 50
+        },
+        "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+        "client_sequence": 4,
+        "occurred_at": "2026-09-16T05:12:15.274Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 75
+        },
+        "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+        "client_sequence": 5,
+        "occurred_at": "2026-09-16T05:12:15.274Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 100
+        },
+        "session_id": "5ea7de70-1ae5-4f50-a77f-3b90f938ff61",
+        "client_sequence": 6,
+        "occurred_at": "2026-09-16T05:12:15.275Z"
+      }
+    ]
+  },
+  {
+    "route": "/crossroads",
+    "events": [
+      {
+        "event_name": "path_selected",
+        "page": "/crossroads",
+        "properties": {
+          "path": "cheshire"
+        },
+        "session_id": "3b48963d-6d65-4878-8a51-6dd0a247f0f7",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:16.917Z"
+      }
+    ]
+  },
+  {
+    "focus": [
+      {
+        "text": "Explore ↗",
+        "href": "/rabbit",
+        "top": 666.375,
+        "outline": "rgb(193, 154, 88) solid 2px"
+      },
+      {
+        "text": "Take a seat ↗",
+        "href": "/hatter",
+        "top": 666.375,
+        "outline": "rgb(193, 154, 88) solid 2px"
+      },
+      {
+        "text": "Ask the cat ↗",
+        "href": "/cheshire",
+        "top": 666.375,
+        "outline": "rgb(193, 154, 88) solid 2px"
+      }
+    ],
+    "keyboardDestination": "http://127.0.0.1:3000/cheshire"
+  }
+]

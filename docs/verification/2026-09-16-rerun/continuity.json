@@ -1,0 +1,978 @@
+[
+  {
+    "cfg": {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.280Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 900,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900,
+          "top": 0,
+          "right": 1440,
+          "bottom": 900,
+          "left": 0
+        },
+        "opacity": "1",
+        "watch": "matrix(1, 0, 0, 1, 0, -30)",
+        "width": 1440,
+        "height": 3600
+      },
+      {
+        "y": 1575,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -675,
+          "width": 1440,
+          "height": 900,
+          "top": -675,
+          "right": 1440,
+          "bottom": 225,
+          "left": 0
+        },
+        "opacity": "0.6663",
+        "watch": "matrix(-0.992757, -0.120137, 0.120137, -0.992757, 0, 205.85)",
+        "width": 1440,
+        "height": 3600
+      },
+      {
+        "y": 2250,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -1350,
+          "width": 1440,
+          "height": 900,
+          "top": -1350,
+          "right": 1440,
+          "bottom": -450,
+          "left": 0
+        },
+        "opacity": "0.3325",
+        "watch": "matrix(0.971134, 0.238533, -0.238533, 0.971134, 0, 441.7)",
+        "width": 1440,
+        "height": 3600
+      },
+      {
+        "y": 2925,
+        "title": "Curiouser and curiouser.",
+        "sticky": {
+          "x": 0,
+          "y": -2025,
+          "width": 1440,
+          "height": 900,
+          "top": -2025,
+          "right": 1440,
+          "bottom": -1125,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 1440,
+        "height": 3600
+      },
+      {
+        "y": 3600,
+        "title": "Welcome to Wonderland.",
+        "sticky": {
+          "x": 0,
+          "y": -2700,
+          "width": 1440,
+          "height": 900,
+          "top": -2700,
+          "right": 1440,
+          "bottom": -1800,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 1440,
+        "height": 3600
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      }
+    ],
+    "previewControls": 0,
+    "events": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:43.280Z"
+      },
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:11:44.724Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 25
+        },
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:11:48.434Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 50
+        },
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 4,
+        "occurred_at": "2026-09-16T05:11:49.985Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 75
+        },
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 5,
+        "occurred_at": "2026-09-16T05:11:51.685Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 100
+        },
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 6,
+        "occurred_at": "2026-09-16T05:11:53.451Z"
+      },
+      {
+        "event_name": "path_selected",
+        "page": "/crossroads",
+        "properties": {
+          "path": "rabbit"
+        },
+        "session_id": "8d60aaf0-c292-452d-baa3-77f491c62c46",
+        "client_sequence": 7,
+        "occurred_at": "2026-09-16T05:11:55.771Z"
+      }
+    ]
+  },
+  {
+    "cfg": {
+      "name": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:57.995Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 1024,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": 0,
+          "width": 768,
+          "height": 1024,
+          "top": 0,
+          "right": 768,
+          "bottom": 1024,
+          "left": 0
+        },
+        "opacity": "1",
+        "watch": "matrix(1, 0, 0, 1, 0, -30)",
+        "width": 768,
+        "height": 4096
+      },
+      {
+        "y": 1792,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -768,
+          "width": 768,
+          "height": 1024,
+          "top": -768,
+          "right": 768,
+          "bottom": 256,
+          "left": 0
+        },
+        "opacity": "0.6663",
+        "watch": "matrix(-0.992757, -0.120137, 0.120137, -0.992757, 0, 205.85)",
+        "width": 768,
+        "height": 4096
+      },
+      {
+        "y": 2560,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -1536,
+          "width": 768,
+          "height": 1024,
+          "top": -1536,
+          "right": 768,
+          "bottom": -512,
+          "left": 0
+        },
+        "opacity": "0.3325",
+        "watch": "matrix(0.971134, 0.238533, -0.238533, 0.971134, 0, 441.7)",
+        "width": 768,
+        "height": 4096
+      },
+      {
+        "y": 3328,
+        "title": "Curiouser and curiouser.",
+        "sticky": {
+          "x": 0,
+          "y": -2304,
+          "width": 768,
+          "height": 1024,
+          "top": -2304,
+          "right": 768,
+          "bottom": -1280,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 768,
+        "height": 4096
+      },
+      {
+        "y": 4096,
+        "title": "Welcome to Wonderland.",
+        "sticky": {
+          "x": 0,
+          "y": -3072,
+          "width": 768,
+          "height": 1024,
+          "top": -3072,
+          "right": 768,
+          "bottom": -2048,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 768,
+        "height": 4096
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 324.75,
+        "bottom": 697.140625
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 324.75,
+        "bottom": 697.140625
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 324.75,
+        "bottom": 697.140625
+      }
+    ],
+    "previewControls": 0,
+    "events": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:11:57.995Z"
+      },
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:11:59.606Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 25
+        },
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:12:03.169Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 50
+        },
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 4,
+        "occurred_at": "2026-09-16T05:12:04.818Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 75
+        },
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 5,
+        "occurred_at": "2026-09-16T05:12:06.353Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 100
+        },
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 6,
+        "occurred_at": "2026-09-16T05:12:07.836Z"
+      },
+      {
+        "event_name": "path_selected",
+        "page": "/crossroads",
+        "properties": {
+          "path": "rabbit"
+        },
+        "session_id": "c4728e19-62b1-4e3c-8ddb-d993706b163c",
+        "client_sequence": 7,
+        "occurred_at": "2026-09-16T05:12:09.467Z"
+      }
+    ]
+  },
+  {
+    "cfg": {
+      "name": "mobile390",
+      "width": 390,
+      "height": 844
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:11.296Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 844,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": 0,
+          "width": 390,
+          "height": 844,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "left": 0
+        },
+        "opacity": "1",
+        "watch": "matrix(1, 0, 0, 1, 0, -30)",
+        "width": 390,
+        "height": 3376
+      },
+      {
+        "y": 1477,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -633,
+          "width": 390,
+          "height": 844,
+          "top": -633,
+          "right": 390,
+          "bottom": 211,
+          "left": 0
+        },
+        "opacity": "0.6663",
+        "watch": "matrix(-0.992757, -0.120137, 0.120137, -0.992757, 0, 205.85)",
+        "width": 390,
+        "height": 3376
+      },
+      {
+        "y": 2110,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -1266,
+          "width": 390,
+          "height": 844,
+          "top": -1266,
+          "right": 390,
+          "bottom": -422,
+          "left": 0
+        },
+        "opacity": "0.3325",
+        "watch": "matrix(0.971134, 0.238533, -0.238533, 0.971134, 0, 441.7)",
+        "width": 390,
+        "height": 3376
+      },
+      {
+        "y": 2743,
+        "title": "Curiouser and curiouser.",
+        "sticky": {
+          "x": 0,
+          "y": -1899,
+          "width": 390,
+          "height": 844,
+          "top": -1899,
+          "right": 390,
+          "bottom": -1055,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 390,
+        "height": 3376
+      },
+      {
+        "y": 3376,
+        "title": "Welcome to Wonderland.",
+        "sticky": {
+          "x": 0,
+          "y": -2532,
+          "width": 390,
+          "height": 844,
+          "top": -2532,
+          "right": 390,
+          "bottom": -1688,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 390,
+        "height": 3376
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 307.1875,
+        "bottom": 609.78125
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 609.78125,
+        "bottom": 912.375
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 912.375,
+        "bottom": 1213.96875
+      }
+    ],
+    "previewControls": 0,
+    "events": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:11.296Z"
+      },
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:12.684Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 25
+        },
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:12:15.736Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 50
+        },
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 4,
+        "occurred_at": "2026-09-16T05:12:17.172Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 75
+        },
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 5,
+        "occurred_at": "2026-09-16T05:12:19.053Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 100
+        },
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 6,
+        "occurred_at": "2026-09-16T05:12:20.702Z"
+      },
+      {
+        "event_name": "path_selected",
+        "page": "/crossroads",
+        "properties": {
+          "path": "rabbit"
+        },
+        "session_id": "bfb29f94-c38d-4712-9301-53afb33988ff",
+        "client_sequence": 7,
+        "occurred_at": "2026-09-16T05:12:22.460Z"
+      }
+    ]
+  },
+  {
+    "cfg": {
+      "name": "mobile375",
+      "width": 375,
+      "height": 812
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:24.545Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 812,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": 0,
+          "width": 375,
+          "height": 812,
+          "top": 0,
+          "right": 375,
+          "bottom": 812,
+          "left": 0
+        },
+        "opacity": "1",
+        "watch": "matrix(1, 0, 0, 1, 0, -30)",
+        "width": 375,
+        "height": 3248
+      },
+      {
+        "y": 1421,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -609,
+          "width": 375,
+          "height": 812,
+          "top": -609,
+          "right": 375,
+          "bottom": 203,
+          "left": 0
+        },
+        "opacity": "0.6663",
+        "watch": "matrix(-0.992757, -0.120137, 0.120137, -0.992757, 0, 205.85)",
+        "width": 375,
+        "height": 3248
+      },
+      {
+        "y": 2030,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -1218,
+          "width": 375,
+          "height": 812,
+          "top": -1218,
+          "right": 375,
+          "bottom": -406,
+          "left": 0
+        },
+        "opacity": "0.3325",
+        "watch": "matrix(0.971134, 0.238533, -0.238533, 0.971134, 0, 441.7)",
+        "width": 375,
+        "height": 3248
+      },
+      {
+        "y": 2639,
+        "title": "Curiouser and curiouser.",
+        "sticky": {
+          "x": 0,
+          "y": -1827,
+          "width": 375,
+          "height": 812,
+          "top": -1827,
+          "right": 375,
+          "bottom": -1015,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 375,
+        "height": 3248
+      },
+      {
+        "y": 3248,
+        "title": "Welcome to Wonderland.",
+        "sticky": {
+          "x": 0,
+          "y": -2436,
+          "width": 375,
+          "height": 812,
+          "top": -2436,
+          "right": 375,
+          "bottom": -1624,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 375,
+        "height": 3248
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 307.1875,
+        "bottom": 609.78125
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 609.78125,
+        "bottom": 912.375
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 912.375,
+        "bottom": 1213.96875
+      }
+    ],
+    "previewControls": 0,
+    "events": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:24.545Z"
+      },
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:25.937Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 25
+        },
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:12:29.121Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 50
+        },
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 4,
+        "occurred_at": "2026-09-16T05:12:30.670Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 75
+        },
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 5,
+        "occurred_at": "2026-09-16T05:12:32.053Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 100
+        },
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 6,
+        "occurred_at": "2026-09-16T05:12:33.570Z"
+      },
+      {
+        "event_name": "path_selected",
+        "page": "/crossroads",
+        "properties": {
+          "path": "rabbit"
+        },
+        "session_id": "f383a8d7-0126-477e-993c-038dbeb23b86",
+        "client_sequence": 7,
+        "occurred_at": "2026-09-16T05:12:35.635Z"
+      }
+    ]
+  },
+  {
+    "cfg": {
+      "name": "reduced",
+      "width": 1440,
+      "height": 900,
+      "reducedMotion": "reduce"
+    },
+    "before": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:37.365Z"
+      }
+    ],
+    "stages": [
+      {
+        "y": 900,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": 0,
+          "width": 1440,
+          "height": 900,
+          "top": 0,
+          "right": 1440,
+          "bottom": 900,
+          "left": 0
+        },
+        "opacity": "1",
+        "watch": "matrix(1, 0, 0, 1, 0, -30)",
+        "width": 1440,
+        "height": 3600
+      },
+      {
+        "y": 1575,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -675,
+          "width": 1440,
+          "height": 900,
+          "top": -675,
+          "right": 1440,
+          "bottom": 225,
+          "left": 0
+        },
+        "opacity": "0.6663",
+        "watch": "matrix(-0.992757, -0.120137, 0.120137, -0.992757, 0, 205.85)",
+        "width": 1440,
+        "height": 3600
+      },
+      {
+        "y": 2250,
+        "title": "Down?",
+        "sticky": {
+          "x": 0,
+          "y": -1350,
+          "width": 1440,
+          "height": 900,
+          "top": -1350,
+          "right": 1440,
+          "bottom": -450,
+          "left": 0
+        },
+        "opacity": "0.3325",
+        "watch": "matrix(0.971134, 0.238533, -0.238533, 0.971134, 0, 441.7)",
+        "width": 1440,
+        "height": 3600
+      },
+      {
+        "y": 2925,
+        "title": "Curiouser and curiouser.",
+        "sticky": {
+          "x": 0,
+          "y": -2025,
+          "width": 1440,
+          "height": 900,
+          "top": -2025,
+          "right": 1440,
+          "bottom": -1125,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 1440,
+        "height": 3600
+      },
+      {
+        "y": 3600,
+        "title": "Welcome to Wonderland.",
+        "sticky": {
+          "x": 0,
+          "y": -2700,
+          "width": 1440,
+          "height": 900,
+          "top": -2700,
+          "right": 1440,
+          "bottom": -1800,
+          "left": 0
+        },
+        "opacity": "0.25",
+        "watch": "matrix(0.5, 0.866025, -0.866025, 0.5, 0, 500)",
+        "width": 1440,
+        "height": 3600
+      }
+    ],
+    "choices": [
+      {
+        "text": "01\nFollow the Rabbit\n\nCuriosity will take you places reason never could.\n\nEXPLORE ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      },
+      {
+        "text": "02\nJoin the Tea Party\n\nTime has stopped. Manners have too.\n\nTAKE A SEAT ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      },
+      {
+        "text": "03\nAsk the Cheshire Cat\n\nAnswers are terribly overrated. Questions are much more fun.\n\nASK THE CAT ↗",
+        "top": 386.375,
+        "bottom": 716.375
+      }
+    ],
+    "previewControls": 0,
+    "events": [
+      {
+        "event_name": "rabbit_hole_started",
+        "page": "/rabbit-hole",
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 1,
+        "occurred_at": "2026-09-16T05:12:37.365Z"
+      },
+      {
+        "event_name": "cta_click",
+        "page": "/",
+        "properties": {
+          "cta": "follow_the_white_rabbit"
+        },
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 2,
+        "occurred_at": "2026-09-16T05:12:38.754Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 25
+        },
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 3,
+        "occurred_at": "2026-09-16T05:12:42.206Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 50
+        },
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 4,
+        "occurred_at": "2026-09-16T05:12:43.672Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 75
+        },
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 5,
+        "occurred_at": "2026-09-16T05:12:45.155Z"
+      },
+      {
+        "event_name": "scroll_depth",
+        "page": "/rabbit-hole",
+        "properties": {
+          "threshold": 100
+        },
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 6,
+        "occurred_at": "2026-09-16T05:12:46.767Z"
+      },
+      {
+        "event_name": "path_selected",
+        "page": "/crossroads",
+        "properties": {
+          "path": "rabbit"
+        },
+        "session_id": "8307abac-ac44-4733-b993-a65e7da142a3",
+        "client_sequence": 7,
+        "occurred_at": "2026-09-16T05:12:48.519Z"
+      }
+    ]
+  }
+]

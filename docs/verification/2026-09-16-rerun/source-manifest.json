@@ -1,0 +1,172 @@
+{
+  "source_commit": "6d0d4bca4b0ba53be4ba3c9b5a9d169363f0c2d0",
+  "remote": "https://github.com/guilhermemichael/wonderland.git",
+  "remote_initial_state": "empty; pull --ff-only origin main failed: remote ref main absent",
+  "source_files": [
+    {
+      "path": ".env.example",
+      "bytes": 177,
+      "sha256": "a9042cc693faacd5941f6b543412cf02eb7e795ddb7d81fe64342751603ee761"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 101,
+      "sha256": "4a8a0764816d5af10e75b8d8de0915b28a790a9951ea58c004833552a6647368"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4298,
+      "sha256": "cdf949db54284f20079206b5b484039dade854e77091feffb7c8a3eefe7fb3bc"
+    },
+    {
+      "path": "apps/api/README.md",
+      "bytes": 361,
+      "sha256": "e306ce5e6bd66978a442a504a3e724af7477b9b437d7685fc3d940584ba9edb9"
+    },
+    {
+      "path": "apps/api/main.py",
+      "bytes": 1732,
+      "sha256": "e60eba2ec6e14ab5463b00126cd1e5ec8f4e2b25be6f48c694ec981fd5fa9574"
+    },
+    {
+      "path": "apps/api/requirements.txt",
+      "bytes": 45,
+      "sha256": "34833497f8f0f124622fd93a1c252f7a66d3252ce74ed268deabd79141323cfb"
+    },
+    {
+      "path": "apps/web/app/[path]/page.tsx",
+      "bytes": 1477,
+      "sha256": "703035784148045270d7b1631fa066875839f3916b911b01e372e2fd6433e1d8"
+    },
+    {
+      "path": "apps/web/app/cheshire/quiz/page.tsx",
+      "bytes": 629,
+      "sha256": "41db56a7e9c7ede46571f599bc69ab0633615a4ece03e657318494c1be03fcc1"
+    },
+    {
+      "path": "apps/web/app/crossroads/page.tsx",
+      "bytes": 165,
+      "sha256": "a9438cde4238f426cd0ee110636226a22cfc82911ff0f3cfdd7cf64e69441e15"
+    },
+    {
+      "path": "apps/web/app/globals.css",
+      "bytes": 8327,
+      "sha256": "272d065dc6e841ab3678f4c81e3b1beffa0a254a826aa543e1ca9a1cc55b4d56"
+    },
+    {
+      "path": "apps/web/app/layout.tsx",
+      "bytes": 724,
+      "sha256": "563df4f5cb0854166147ea846802d7c8bb4b0a26b3de393644285b2803149873"
+    },
+    {
+      "path": "apps/web/app/page.tsx",
+      "bytes": 1489,
+      "sha256": "166a457d64173cdae08dfe58f59aae6c9579a9af927670cb2de17c8857b048b9"
+    },
+    {
+      "path": "apps/web/app/rabbit-hole/page.tsx",
+      "bytes": 166,
+      "sha256": "a02c0b3c452d914749eebb83a51dbf9cbd274e4dfbeae69b544101d5d5773c92"
+    },
+    {
+      "path": "apps/web/components/crossroads.tsx",
+      "bytes": 1361,
+      "sha256": "e1f38cc4fd779d631b20d535207856c4b4793954322ab26426991b2482228a33"
+    },
+    {
+      "path": "apps/web/components/rabbit-hole.tsx",
+      "bytes": 3315,
+      "sha256": "e4706a9d0c09e336d6ac7283d79b49972688c3b4556667c2c3e608b8fe6cb5a2"
+    },
+    {
+      "path": "apps/web/eslint.config.mjs",
+      "bytes": 670,
+      "sha256": "926d11ab414d428dbb5122cb7c510789d41208cfdce9ffa396e59ac9e760afac"
+    },
+    {
+      "path": "apps/web/lib/analytics.ts",
+      "bytes": 1429,
+      "sha256": "6374785062049431a5d908e94b7ee69343886011dad748fc410c83862da7e5a4"
+    },
+    {
+      "path": "apps/web/next-env.d.ts",
+      "bytes": 262,
+      "sha256": "85ae5aee75f011967cf2d25cbc342f62d69314e9d925f7f4aa3456fc2cffcca6"
+    },
+    {
+      "path": "apps/web/next.config.ts",
+      "bytes": 156,
+      "sha256": "5fa04a810adc1aaac0575af373dd8b43b61690efb2e13f6a116c270782c6f791"
+    },
+    {
+      "path": "apps/web/package.json",
+      "bytes": 580,
+      "sha256": "346aa09415eb208d368fa0245f7c9f6ecd9ae4dd299fe4ba8d571c589b376696"
+    },
+    {
+      "path": "apps/web/tsconfig.json",
+      "bytes": 530,
+      "sha256": "f951e5904d26f3ad6193bbc82d76f9181039f58e72cb5d61b9138cd8b6e7f930"
+    },
+    {
+      "path": "docs/ANALYTICS.md",
+      "bytes": 667,
+      "sha256": "74f7ebbc851838613f48becfbc684ea410637c642f1a769d85766fbe2a6e8fdb"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "bytes": 781,
+      "sha256": "afabd152ecbc7d8d4f49d21b9b26d1aae4de90574561cd8184a0c075acde8ddf"
+    },
+    {
+      "path": "docs/CASE_STUDY.md",
+      "bytes": 662,
+      "sha256": "d8032c77253e6e6879ea00cf553345fa939d6aad4187f189b53b2b62f201a1f8"
+    },
+    {
+      "path": "docs/DESIGN_SYSTEM.md",
+      "bytes": 583,
+      "sha256": "8457b3c3ab72a7d166436b22148b5ba8e16c820505f412d376122b7bce02f491"
+    },
+    {
+      "path": "docs/HANDOFF.md",
+      "bytes": 1572,
+      "sha256": "ab42532d899d765fcf95bf7bf16b27c68685b4481bd3da8db93f2fa193a0e24f"
+    },
+    {
+      "path": "docs/PROJECT_BRIEF.md",
+      "bytes": 472,
+      "sha256": "41bc62b1056bab8c40e354f7137935a416167bce6c55ce700e8e4dbec7d91309"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 194994,
+      "sha256": "d57226c5f1e0684dbee5666abc868ba1df14d7ef498a558cddec6b7a03458835"
+    },
+    {
+      "path": "package.json",
+      "bytes": 481,
+      "sha256": "baa39207b37f553d726372d30a54a09cd88398ddf58b952e81f3bd4c399f0f9d"
+    },
+    {
+      "path": "scripts/api.mjs",
+      "bytes": 434,
+      "sha256": "78e188eb020d2de8a95ab9e224a3c274780439dfa54ffa2d7d47aaa133ed96c7"
+    },
+    {
+      "path": "scripts/dev.mjs",
+      "bytes": 916,
+      "sha256": "243dd5ccf2bc3f61401102bc8d05e337ca8f9547081989e3bdecc6811b648099"
+    },
+    {
+      "path": "scripts/ensure-api.mjs",
+      "bytes": 1647,
+      "sha256": "41f11cc784c186eefcadb82c2a9460bd2ea1284a3bf99d4c3dfe13f1dacb1da5"
+    },
+    {
+      "path": "scripts/test-api.mjs",
+      "bytes": 1733,
+      "sha256": "7fdcdca76d8b900437c9c25b21d9d3ca2cf0fb72e40de95fed1b5b79689208ea"
+    }
+  ]
+}
