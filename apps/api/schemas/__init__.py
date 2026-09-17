@@ -2,6 +2,7 @@ from schemas.events import EventIn, EventOut, EventName
 from schemas.sessions import SessionCreate, SessionUpdate, SessionResponse, SessionStage
 from schemas.quiz import QuizAnswerIn, QuizAnswersResponse, QuizSubmissionResponse
 from schemas.leads import LeadCreate, LeadResponse
+from schemas.rabbit_progress import RabbitProgressUpdate, RabbitProgressResponse, RabbitProgressCreate
 
 __all__ = [
     "EventIn",
@@ -16,4 +17,7 @@ __all__ = [
     "QuizSubmissionResponse",
     "LeadCreate",
     "LeadResponse",
+    "RabbitProgressUpdate",
+    "RabbitProgressResponse",
+    "RabbitProgressCreate",
 ]

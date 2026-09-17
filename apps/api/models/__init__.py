@@ -5,6 +5,7 @@ from models.session_experiment import SessionExperiment
 from models.event import CampaignEvent
 from models.quiz import QuizAnswer, QuizSubmission
 from models.lead import Lead
+from models.rabbit_progress import RabbitProgress
 
 __all__ = [
     "Base",
@@ -15,4 +16,5 @@ __all__ = [
     "QuizAnswer",
     "QuizSubmission",
     "Lead",
+    "RabbitProgress",
 ]

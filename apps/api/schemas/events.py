@@ -19,6 +19,11 @@ EventName = Literal[
     "quiz_submitted",
     "quiz_result_viewed",
     "cheshire_completed",
+    "rabbit_started",
+    "rabbit_watch_seen",
+    "rabbit_watch_taken",
+    "rabbit_trail_started",
+    "rabbit_threshold_reached",
 ]
 
 
