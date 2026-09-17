@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getLocalSessionId } from "../../../lib/session";
-import { QUIZ_QUESTIONS, QuestionId, AnswerId } from "../../../lib/quiz-content";
-import { getQuizAnswers, saveQuizAnswer, submitQuiz } from "../../../lib/api-client";
+import { QUIZ_QUESTIONS, AnswerId } from "../../../lib/quiz-content";
+import { getQuizAnswers, getQuizResult, saveQuizAnswer, submitQuiz } from "../../../lib/api-client";
 import { trackEvent } from "../../../lib/analytics";
 
 type QuizState = "loading" | "ready" | "saving" | "submitting" | "error";
@@ -13,11 +13,11 @@ export default function CheshireQuizPage() {
   const router = useRouter();
   const [status, setStatus] = useState<QuizState>("loading");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [selectedAnswer, setSelectedAnswer] = useState<AnswerId | null>(null);
-  
   const initialized = useRef(false);
+  const questionFocusRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (initialized.current) return;
@@ -26,51 +26,52 @@ export default function CheshireQuizPage() {
     async function loadState() {
       const sessionId = getLocalSessionId();
       if (!sessionId) {
-        // Without a session, we can't do the quiz.
         router.replace("/crossroads");
         return;
       }
 
       try {
         const data = await getQuizAnswers(sessionId);
-        if (data.is_complete) {
-          router.replace("/cheshire/result");
-          return;
-        }
 
-        setAnswers(data.answers || {});
-        
-        // Find the first unanswered question
-        let nextIndex = 0;
-        for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
-          if (!data.answers[QUIZ_QUESTIONS[i].id]) {
-            nextIndex = i;
-            break;
+        // Four saved answers are not the same thing as a final submission.
+        // A previous submit may have failed after Q4 was durably saved, so
+        // only redirect to the result page after the authoritative result exists.
+        if (data.is_complete) {
+          try {
+            await getQuizResult(sessionId);
+            router.replace("/cheshire/result");
+            return;
+          } catch {
+            // No authoritative submission yet. Resume at Q4 so the user can
+            // explicitly retry the final submit without losing saved answers.
           }
         }
-        
-        // If all 4 are answered but not complete? (Shouldn't happen with our API)
-        if (nextIndex >= QUIZ_QUESTIONS.length) {
-          nextIndex = QUIZ_QUESTIONS.length - 1; 
+
+        const persistedAnswers = data.answers || {};
+        setAnswers(persistedAnswers);
+
+        let nextIndex = data.is_complete ? QUIZ_QUESTIONS.length - 1 : 0;
+        if (!data.is_complete) {
+          const unansweredIndex = QUIZ_QUESTIONS.findIndex((question) => !persistedAnswers[question.id]);
+          nextIndex = unansweredIndex === -1 ? QUIZ_QUESTIONS.length - 1 : unansweredIndex;
         }
 
         setCurrentIndex(nextIndex);
-        setSelectedAnswer(data.answers[QUIZ_QUESTIONS[nextIndex].id] || null);
+        setSelectedAnswer((persistedAnswers[QUIZ_QUESTIONS[nextIndex].id] as AnswerId | undefined) ?? null);
         setStatus("ready");
 
         trackEvent({
-          event_name: nextIndex > 0 ? "quiz_resumed" : "quiz_started",
+          event_name: data.total_answered > 0 ? "quiz_resumed" : "quiz_started",
           page: "/cheshire/quiz",
-          properties: { question_index: nextIndex }
+          properties: { question_index: nextIndex, total_answered: data.total_answered },
         });
-        
+
         trackEvent({
           event_name: "quiz_question_viewed",
           page: "/cheshire/quiz",
-          properties: { question_id: QUIZ_QUESTIONS[nextIndex].id }
+          properties: { question_id: QUIZ_QUESTIONS[nextIndex].id },
         });
-
-      } catch (err) {
+      } catch {
         setStatus("error");
         setErrorMsg("The Cat seems to have misplaced your memory. Try refreshing.");
       }
@@ -83,79 +84,78 @@ export default function CheshireQuizPage() {
     setSelectedAnswer(id);
   };
 
+  const focusCurrentQuestion = () => {
+    requestAnimationFrame(() => questionFocusRef.current?.focus());
+  };
+
   const handleContinue = async () => {
-    if (!selectedAnswer) return;
+    if (!selectedAnswer || status === "saving" || status === "submitting") return;
 
     const sessionId = getLocalSessionId();
     if (!sessionId) return;
 
     const question = QUIZ_QUESTIONS[currentIndex];
-
     setStatus("saving");
     setErrorMsg(null);
+
     try {
       await saveQuizAnswer(sessionId, question.id, selectedAnswer);
-      
+
       trackEvent({
         event_name: "quiz_answer_confirmed",
         page: "/cheshire/quiz",
-        properties: { question_id: question.id, answer_id: selectedAnswer }
+        properties: { question_id: question.id, answer_id: selectedAnswer },
       });
 
-      setAnswers(prev => ({ ...prev, [question.id]: selectedAnswer }));
+      const nextAnswers = { ...answers, [question.id]: selectedAnswer };
+      setAnswers(nextAnswers);
 
       if (currentIndex < QUIZ_QUESTIONS.length - 1) {
-        const nextIdx = currentIndex + 1;
-        setCurrentIndex(nextIdx);
-        setSelectedAnswer(answers[QUIZ_QUESTIONS[nextIdx].id] || null);
+        const nextIndex = currentIndex + 1;
+        setCurrentIndex(nextIndex);
+        setSelectedAnswer((nextAnswers[QUIZ_QUESTIONS[nextIndex].id] as AnswerId | undefined) ?? null);
         setStatus("ready");
-        
-        // Move focus to the question container for accessibility
-        setTimeout(() => {
-          const eyebrow = document.querySelector('.eyebrow') as HTMLElement;
-          if (eyebrow) eyebrow.focus();
-        }, 0);
+        focusCurrentQuestion();
 
         trackEvent({
           event_name: "quiz_question_viewed",
           page: "/cheshire/quiz",
-          properties: { question_id: QUIZ_QUESTIONS[nextIdx].id }
+          properties: { question_id: QUIZ_QUESTIONS[nextIndex].id },
         });
       } else {
         setStatus("ready");
       }
-    } catch (err) {
+    } catch {
       setStatus("error");
       setErrorMsg("A ripple in Wonderland prevented your choice from being saved.");
     }
   };
 
   const handleSubmit = async () => {
+    if (!selectedAnswer || status === "saving" || status === "submitting") return;
+
     const sessionId = getLocalSessionId();
     if (!sessionId) return;
-    if (!selectedAnswer) return;
 
     setStatus("submitting");
     setErrorMsg(null);
+
     try {
-      // Must save the final answer before submitting, otherwise the backend rejects it as incomplete
-      await saveQuizAnswer(sessionId, QUIZ_QUESTIONS[QUIZ_QUESTIONS.length - 1].id, selectedAnswer);
-      
+      const finalQuestion = QUIZ_QUESTIONS[QUIZ_QUESTIONS.length - 1];
+      await saveQuizAnswer(sessionId, finalQuestion.id, selectedAnswer);
+
       trackEvent({
         event_name: "quiz_answer_confirmed",
         page: "/cheshire/quiz",
-        properties: { question_id: QUIZ_QUESTIONS[QUIZ_QUESTIONS.length - 1].id, answer_id: selectedAnswer }
+        properties: { question_id: finalQuestion.id, answer_id: selectedAnswer },
       });
 
       await submitQuiz(sessionId);
-      trackEvent({
-        event_name: "quiz_submitted",
-        page: "/cheshire/quiz",
-      });
+      trackEvent({ event_name: "quiz_submitted", page: "/cheshire/quiz" });
       router.push("/cheshire/result");
-    } catch (err) {
+    } catch {
       setStatus("error");
-      setErrorMsg("The Cat is distracted. Could not finalize the decision.");
+      setErrorMsg("The Cat is distracted. Your answers are safe; try the final reveal again.");
     }
   };
 
@@ -170,15 +170,12 @@ export default function CheshireQuizPage() {
   }
 
   const isLastQuestion = currentIndex === QUIZ_QUESTIONS.length - 1;
-  const currentQ = QUIZ_QUESTIONS[currentIndex];
-
-  // Progressive opacity of the smile
-  const smileOpacity = 0.25 + (currentIndex * 0.25);
+  const currentQuestion = QUIZ_QUESTIONS[currentIndex];
+  const smileOpacity = 0.25 + currentIndex * 0.25;
 
   return (
     <main className="landing cheshire-quiz">
       <div className="cheshire-background-art" aria-hidden="true" style={{ opacity: smileOpacity }}>
-        {/* Placeholder for the Cheshire visual. Just using a stylized text symbol for now. */}
         <div className="cheshire-smile">)</div>
       </div>
 
@@ -190,24 +187,24 @@ export default function CheshireQuizPage() {
           </div>
         )}
 
-        <div className="eyebrow" aria-live="polite" tabIndex={-1}>
+        <div className="eyebrow" aria-live="polite" tabIndex={-1} ref={questionFocusRef}>
           Question {currentIndex + 1} of {QUIZ_QUESTIONS.length}
         </div>
 
         <fieldset className="quiz-fieldset" disabled={status === "saving" || status === "submitting"}>
-          <legend className="hero-title">{currentQ.text}</legend>
-          
+          <legend className="hero-title">{currentQuestion.text}</legend>
+
           <div className="quiz-options">
-            {currentQ.answers.map(ans => (
-              <label key={ans.id} className={`quiz-option ${selectedAnswer === ans.id ? "selected" : ""}`}>
+            {currentQuestion.answers.map((answer) => (
+              <label key={answer.id} className={`quiz-option ${selectedAnswer === answer.id ? "selected" : ""}`}>
                 <input
                   type="radio"
-                  name={currentQ.id}
-                  value={ans.id}
-                  checked={selectedAnswer === ans.id}
-                  onChange={() => handleSelect(ans.id)}
+                  name={currentQuestion.id}
+                  value={answer.id}
+                  checked={selectedAnswer === answer.id}
+                  onChange={() => handleSelect(answer.id)}
                 />
-                <span className="quiz-option-text">{ans.label}</span>
+                <span className="quiz-option-text">{answer.label}</span>
               </label>
             ))}
           </div>
