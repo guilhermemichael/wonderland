@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "./cheshire.css";
 
 export const metadata: Metadata = {
   title: "WONDERLAND — The Cheshire Cat",
@@ -6,9 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function CheshireLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <div className="cheshire-experience">
-      {children}
-    </div>
-  );
+  return <div className="cheshire-experience">{children}</div>;
 }

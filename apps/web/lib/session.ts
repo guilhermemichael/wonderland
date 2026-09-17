@@ -21,6 +21,24 @@ function storage() {
 
 import { apiBaseUrl } from "./api-client";
 
+export function getLocalSessionId(): string | undefined {
+  return storage()?.getItem(SESSION_KEY) ?? undefined;
+}
+
+export async function getCurrentSession(): Promise<SessionState | null> {
+  const sessionId = getLocalSessionId();
+  if (!sessionId) return null;
+
+  try {
+    const response = await fetch(`${apiBaseUrl()}/sessions/${sessionId}`);
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.is_expired ? null : data;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchOrInitializeSession(): Promise<SessionState | null> {
   const store = storage();
   if (!store) return null;
@@ -37,18 +55,15 @@ export async function fetchOrInitializeSession(): Promise<SessionState | null> {
         }
       }
     } catch {
-      // Network error, fallback to returning null or we can try creating a new one
+      // Continue to authoritative session creation below.
     }
   }
 
-  // Create new session
   try {
     const response = await fetch(`${apiBaseUrl()}/sessions`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        campaign_slug: "wonderland",
-      }),
+      body: JSON.stringify({ campaign_slug: "wonderland" }),
     });
 
     if (response.ok) {
@@ -57,7 +72,7 @@ export async function fetchOrInitializeSession(): Promise<SessionState | null> {
       return data;
     }
   } catch {
-    //
+    // Session bootstrap failure is surfaced by callers as unavailable state.
   }
 
   return null;
@@ -71,9 +86,7 @@ export async function forceNewSession(): Promise<SessionState | null> {
     const response = await fetch(`${apiBaseUrl()}/sessions`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        campaign_slug: "wonderland",
-      }),
+      body: JSON.stringify({ campaign_slug: "wonderland" }),
     });
 
     if (response.ok) {
@@ -82,21 +95,19 @@ export async function forceNewSession(): Promise<SessionState | null> {
       return data;
     }
   } catch {
-    //
+    // Preserve the previous local session identity if creation fails.
   }
 
   return null;
-}
-
-export function getLocalSessionId(): string | undefined {
-  return storage()?.getItem(SESSION_KEY) ?? undefined;
 }
 
 export function clearLocalSessionId(): void {
   storage()?.removeItem(SESSION_KEY);
 }
 
-export async function updateSession(updates: Partial<Pick<SessionState, "selected_path" | "entry_affinity" | "final_segment">>): Promise<boolean> {
+export async function updateSession(
+  updates: Partial<Pick<SessionState, "selected_path" | "entry_affinity" | "final_segment">>,
+): Promise<boolean> {
   const sessionId = getLocalSessionId();
   if (!sessionId) return false;
 

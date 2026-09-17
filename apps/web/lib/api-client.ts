@@ -17,46 +17,50 @@ export function apiEventsUrl(): string {
 }
 
 export async function saveQuizAnswer(sessionId: string, questionId: string, answerId: string) {
-  const res = await fetch(`${apiBaseUrl()}/sessions/${sessionId}/quiz/answers`, {
+  const response = await fetch(`${apiBaseUrl()}/sessions/${sessionId}/quiz/answers`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question_id: questionId, answer_id: answerId })
+    body: JSON.stringify({ question_id: questionId, answer_id: answerId }),
   });
-  if (!res.ok) throw new Error("Failed to save answer");
-  return res.json();
+  if (!response.ok) throw new Error("Failed to save answer");
+  return response.json();
 }
 
 export async function getQuizAnswers(sessionId: string) {
-  const res = await fetch(`${apiBaseUrl()}/sessions/${sessionId}/quiz/answers`, {
+  const response = await fetch(`${apiBaseUrl()}/sessions/${sessionId}/quiz/answers`, {
     method: "GET",
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Failed to get answers");
-  return res.json();
+  if (!response.ok) throw new Error("Failed to get answers");
+  return response.json();
 }
 
 export async function submitQuiz(sessionId: string) {
-  const res = await fetch(`${apiBaseUrl()}/sessions/${sessionId}/quiz/submit`, {
+  const response = await fetch(`${apiBaseUrl()}/sessions/${sessionId}/quiz/submit`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Failed to submit quiz");
-  return res.json();
+  if (!response.ok) throw new Error("Failed to submit quiz");
+  return response.json();
 }
 
 export async function getQuizResult(sessionId: string) {
-  const res = await fetch(`${apiBaseUrl()}/sessions/${sessionId}/quiz/result`, {
+  const response = await fetch(`${apiBaseUrl()}/sessions/${sessionId}/quiz/result`, {
     method: "GET",
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   });
-  if (!res.ok) throw new Error("Failed to get result");
-  const data = await res.json();
+  if (!response.ok) throw new Error("Failed to get result");
+
+  const data = await response.json();
   return {
-    affinity: data.final_segment,
+    affinity: data.final_segment as "curious" | "chaotic" | "mysterious",
+    confidence: Number(data.confidence),
+    scoringVersion: data.scoring_version as string,
+    submittedAt: data.submitted_at as string,
     scores: {
-      curious: data.curious_score,
-      chaotic: data.chaotic_score,
-      mysterious: data.mysterious_score,
-    }
+      curious: Number(data.curious_score),
+      chaotic: Number(data.chaotic_score),
+      mysterious: Number(data.mysterious_score),
+    },
   };
 }
