@@ -31,6 +31,13 @@ API_CORS_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+# Vercel can serve the same project through deployment aliases in addition to
+# the stable production domain. Keep the regex scoped to vercel.app rather
+# than opening CORS to arbitrary origins.
+API_CORS_ORIGIN_REGEX = os.getenv(
+    "API_CORS_ORIGIN_REGEX",
+    r"^https://[a-z0-9-]+\.vercel\.app$",
+).strip() or None
 API_TITLE = "WONDERLAND API"
 API_VERSION = "0.2.0"
 DEFAULT_CAMPAIGN_SLUG = "wonderland"
