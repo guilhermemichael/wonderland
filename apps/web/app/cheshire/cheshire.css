@@ -1,0 +1,175 @@
+.cheshire-entry {
+  overflow: hidden;
+}
+
+.cheshire-entry .landing-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 420px);
+  align-items: center;
+  gap: clamp(36px, 7vw, 110px);
+}
+
+.cheshire-entry-copy {
+  max-width: 720px;
+}
+
+.cheshire-entry .hero-subtitle {
+  max-width: 520px;
+}
+
+.cheshire-entry-scene {
+  position: relative;
+  min-height: 420px;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.cheshire-orbit {
+  position: absolute;
+  width: min(34vw, 420px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(199, 165, 192, .36);
+  border-radius: 50%;
+  transform: rotate(-12deg);
+}
+
+.cheshire-orbit::before,
+.cheshire-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border: 1px solid rgba(213, 185, 125, .2);
+  border-radius: 50%;
+}
+
+.cheshire-orbit::after {
+  inset: 30%;
+  border-color: rgba(242, 235, 221, .14);
+}
+
+.cheshire-face-mark {
+  position: relative;
+  width: 240px;
+  height: 170px;
+  color: #c7a5c0;
+}
+
+.cheshire-eye {
+  position: absolute;
+  top: 24px;
+  width: 56px;
+  height: 24px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: .82;
+}
+
+.cheshire-eye::after {
+  content: "";
+  position: absolute;
+  inset: 6px 21px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.cheshire-eye-left { left: 36px; transform: rotate(8deg); }
+.cheshire-eye-right { right: 36px; transform: rotate(-8deg); }
+
+.cheshire-mouth {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: 164px;
+  height: 72px;
+  transform: translateX(-50%);
+  border-bottom: 3px solid currentColor;
+  border-radius: 0 0 60% 60%;
+  opacity: .9;
+}
+
+.cheshire-mouth::before,
+.cheshire-mouth::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  width: 26px;
+  border-bottom: 1px solid currentColor;
+}
+
+.cheshire-mouth::before { left: -10px; transform: rotate(18deg); }
+.cheshire-mouth::after { right: -10px; transform: rotate(-18deg); }
+
+.cheshire-whisper {
+  position: absolute;
+  right: -10px;
+  bottom: 28px;
+  max-width: 200px;
+  margin: 0;
+  color: var(--text-inverse-muted);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.result-journey-line {
+  max-width: 620px;
+  margin: 0 0 28px;
+  color: #c7a5c0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(20px, 2.4vw, 30px);
+  line-height: 1.15;
+}
+
+.result-confidence {
+  margin: 20px 0 0;
+  color: var(--text-inverse-muted);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 42px;
+}
+
+@media (max-width: 820px) {
+  .cheshire-entry .landing-content {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .cheshire-entry-scene {
+    min-height: 300px;
+    order: -1;
+    margin-top: 36px;
+  }
+
+  .cheshire-orbit {
+    width: min(76vw, 330px);
+  }
+
+  .cheshire-face-mark {
+    transform: scale(.82);
+  }
+
+  .cheshire-whisper {
+    right: 8px;
+    bottom: 8px;
+    max-width: 170px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cheshire-entry-scene,
+  .cheshire-face-mark,
+  .cheshire-orbit,
+  .cheshire-eye,
+  .cheshire-mouth {
+    transform: none !important;
+  }
+}
