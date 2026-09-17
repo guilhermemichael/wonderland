@@ -11,7 +11,14 @@ async function request(method, path, payload, expected = [200]) {
     body: payload === undefined ? undefined : JSON.stringify(payload),
   });
   const text = await response.text();
-  const data = text ? JSON.parse(text) : null;
+  let data = null;
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
+  }
   assert.ok(expected.includes(response.status), `${method} ${path}: expected ${expected.join(",")}, got ${response.status}: ${text}`);
   return data;
 }
@@ -19,7 +26,7 @@ async function request(method, path, payload, expected = [200]) {
 test("M03 production API persists Cheshire divergence and serves authoritative result", { skip: !base }, async () => {
   const session = await request("POST", "/sessions", {
     campaign_slug: "wonderland",
-    locale: "m03-production-gate",
+    locale: "m03-prod",
   }, [201]);
   const sessionId = session.public_session_id;
   assert.ok(sessionId);
