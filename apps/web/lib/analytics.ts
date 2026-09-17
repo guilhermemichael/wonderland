@@ -1,4 +1,5 @@
 import { applyFlushOutcomes } from "./analytics-queue";
+import { apiEventsUrl } from "./api-client";
 
 export type EventName =
   | "page_view" | "cta_click" | "rabbit_hole_started" | "scroll_depth"
@@ -11,6 +12,9 @@ export type AnalyticsEvent = {
   event_name: EventName;
   page: string;
   occurred_at: string;
+  surface?: string;
+  selected_path?: "rabbit" | "hatter" | "cheshire";
+  final_segment?: "curious" | "chaotic" | "mysterious";
   properties?: Record<string, string | number | boolean | null>;
 };
 
@@ -26,8 +30,6 @@ function storage(kind: "localStorage" | "sessionStorage") {
   if (typeof window === "undefined") return null;
   try { return window[kind]; } catch { return null; }
 }
-
-import { apiEventsUrl } from "./api-client";
 
 function readQueue(): QueuedEvent[] {
   const store = storage("localStorage");
@@ -48,11 +50,7 @@ function sessionId() {
   const store = storage("localStorage");
   if (!store) return undefined;
   try {
-    const existing = store.getItem(SESSION_KEY);
-    if (existing) return existing;
-    const created = crypto.randomUUID();
-    store.setItem(SESSION_KEY, created);
-    return created;
+    return store.getItem(SESSION_KEY) ?? undefined;
   } catch { return undefined; }
 }
 
@@ -85,8 +83,6 @@ export async function flushEventQueue() {
           accepted = response.ok;
         } catch { /* Leave offline events pending for a later recovery cycle. */ }
 
-        // Never reconcile an ACK against the pre-await snapshot: new events
-        // may have been appended while this request was in flight.
         const current = readQueue();
         if (!writeQueue(applyFlushOutcomes(current, [{ client_event_id: queued.client_event_id, success: accepted }]) as QueuedEvent[])) return;
         if (accepted) break;

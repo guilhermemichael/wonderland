@@ -1,0 +1,226 @@
+name: M02 Recovery Gate
+
+on:
+  push:
+    branches:
+      - fix/milestone-02-production-wiring
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: wonderland
+          POSTGRES_PASSWORD: wonderland_dev_password
+          POSTGRES_DB: wonderland_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U wonderland -d wonderland_test"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=12
+
+    env:
+      DATABASE_URL: postgresql+psycopg://wonderland:wonderland_dev_password@127.0.0.1:5432/wonderland_test
+      TEST_DATABASE_URL: postgresql+psycopg://wonderland:wonderland_dev_password@127.0.0.1:5432/wonderland_test
+      APP_ENV: development
+      NEXT_PUBLIC_API_URL: http://127.0.0.1:8000
+      PRODUCTION_API_URL: https://wonderland-api-wmxc.onrender.com
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: apps/api/requirements.txt
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Install Python dependencies
+        run: python -m pip install -r apps/api/requirements.txt
+
+      - name: Verify fresh Alembic migration
+        working-directory: apps/api
+        run: |
+          alembic upgrade head
+          alembic current
+
+      - name: Frontend lint
+        run: npm run lint
+
+      - name: Frontend typecheck
+        run: npm run typecheck
+
+      - name: Root test suite
+        run: npm run test
+
+      - name: Production build
+        run: npm run build
+
+      - name: Backend PostgreSQL tests
+        run: pytest apps/api/tests -v
+
+      - name: Python syntax gate
+        run: python -m py_compile apps/api/main.py
+
+      - name: Public Render API smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import os
+          import time
+          import uuid
+          import urllib.error
+          import urllib.request
+
+          base = os.environ["PRODUCTION_API_URL"].rstrip("/") + "/api/v1"
+
+          def request(method, path, payload=None, headers=None, expected=(200,)):
+              body = None if payload is None else json.dumps(payload).encode()
+              req_headers = {"content-type": "application/json"}
+              if headers:
+                  req_headers.update(headers)
+              req = urllib.request.Request(base + path, data=body, method=method, headers=req_headers)
+              last = None
+              for attempt in range(12):
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as response:
+                          raw = response.read().decode()
+                          if response.status not in expected:
+                              raise AssertionError(f"{method} {path}: expected {expected}, got {response.status}: {raw}")
+                          return response.status, (json.loads(raw) if raw else {}), dict(response.headers)
+                  except (urllib.error.URLError, TimeoutError) as exc:
+                      last = exc
+                      time.sleep(min(2 + attempt, 10))
+              raise AssertionError(f"{method} {path} unavailable: {last}")
+
+          _, health, _ = request("GET", "/health")
+          assert health["status"] == "ok", health
+          assert health["database"] == "connected", health
+
+          _, session, _ = request("POST", "/sessions", {"campaign_slug": "wonderland", "locale": "ci-synthetic"}, expected=(201,))
+          sid = session["public_session_id"]
+          assert sid
+
+          _, patched, _ = request("PATCH", f"/sessions/{sid}", {"selected_path": "cheshire", "current_stage": "crossroads"})
+          assert patched["selected_path"] == "cheshire", patched
+          assert patched["entry_affinity"] == "mysterious", patched
+
+          _, resumed, _ = request("GET", f"/sessions/{sid}")
+          assert resumed["public_session_id"] == sid
+          assert resumed["selected_path"] == "cheshire"
+          assert resumed["entry_affinity"] == "mysterious"
+
+          event_id = str(uuid.uuid4())
+          event = {
+              "client_event_id": event_id,
+              "event_name": "path_selected",
+              "page": "/crossroads",
+              "client_sequence": 1,
+              "occurred_at": "2026-09-17T09:00:00Z",
+              "session_id": sid,
+              "selected_path": "cheshire",
+              "properties": {"surface": "ci_synthetic"},
+          }
+          _, first, _ = request("POST", "/events", event, expected=(202,))
+          _, duplicate, _ = request("POST", "/events", event, expected=(202,))
+          assert first["event_id"] == duplicate["event_id"]
+
+          answers = {"q1": "q1_a", "q2": "q2_a", "q3": "q3_a", "q4": "q4_a"}
+          for question_id, answer_id in answers.items():
+              request("POST", f"/sessions/{sid}/quiz/answers", {"question_id": question_id, "answer_id": answer_id})
+          _, progress, _ = request("GET", f"/sessions/{sid}/quiz/answers")
+          assert progress["total_answered"] == 4, progress
+          _, result, _ = request("POST", f"/sessions/{sid}/quiz/submit")
+          assert result["final_segment"] == "curious", result
+          assert result["curious_score"] == 11, result
+
+          _, after_result, _ = request("GET", f"/sessions/{sid}")
+          assert after_result["entry_affinity"] == "mysterious", after_result
+          assert after_result["final_segment"] == "curious", after_result
+          print("Production API smoke passed: health, persistent session, Cheshire affinity, event idempotency, quiz authority.")
+          PY
+
+          cors_headers=$(curl -fsSI -X OPTIONS "$PRODUCTION_API_URL/api/v1/sessions" \
+            -H 'Origin: https://wonderland-ochre.vercel.app' \
+            -H 'Access-Control-Request-Method: POST' | tr -d '\r')
+          echo "$cors_headers" | grep -qi '^access-control-allow-origin: https://wonderland-ochre.vercel.app$'
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: M01 regression suite against isolated PostgreSQL
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python - <<'PY'
+          import psycopg
+          with psycopg.connect(
+              "postgresql://wonderland:wonderland_dev_password@127.0.0.1:5432/postgres",
+              autocommit=True,
+          ) as conn:
+              conn.execute("DROP DATABASE IF EXISTS wonderland_regression WITH (FORCE)")
+              conn.execute("CREATE DATABASE wonderland_regression")
+          PY
+
+          export DATABASE_URL='postgresql+psycopg://wonderland:wonderland_dev_password@127.0.0.1:5432/wonderland_regression'
+          (
+            cd apps/api
+            alembic upgrade head
+            uvicorn main:app --host 127.0.0.1 --port 8000 > /tmp/wonderland-api.log 2>&1
+          ) &
+          API_PID=$!
+          (
+            cd apps/web
+            npx next start -H 127.0.0.1 -p 3000 > /tmp/wonderland-web.log 2>&1
+          ) &
+          WEB_PID=$!
+          cleanup() {
+            kill "$API_PID" "$WEB_PID" 2>/dev/null || true
+          }
+          trap cleanup EXIT
+
+          ready=0
+          for _ in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:8000/api/v1/health >/dev/null && curl -fsS http://127.0.0.1:3000/ >/dev/null; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+
+          if [ "$ready" -ne 1 ]; then
+            echo '--- API LOG ---'
+            cat /tmp/wonderland-api.log || true
+            echo '--- WEB LOG ---'
+            cat /tmp/wonderland-web.log || true
+            exit 1
+          fi
+
+          curl -fsS http://127.0.0.1:8000/api/v1/health
+          npm run test:regressions
+
+      - name: Git whitespace gate
+        run: git diff --check HEAD^
