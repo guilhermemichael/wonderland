@@ -10,3 +10,10 @@ __pycache__
 .env.local
 coverage
 *.db
+
+source-assets/*.glb
+source-assets/*.fbx
+source-assets/*.gltf
+source-assets/*.usdz
+
+pgsql/

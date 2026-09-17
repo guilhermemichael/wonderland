@@ -6,7 +6,9 @@ export type EventName =
   | "rabbit_hole_completed" | "rabbit_hole_skipped" | "path_selected"
   | "cheshire_started" | "quiz_started" | "quiz_question_viewed"
   | "quiz_answer_confirmed" | "quiz_resumed" | "quiz_submitted"
-  | "quiz_result_viewed" | "cheshire_completed";
+  | "quiz_result_viewed" | "cheshire_completed" | "rabbit_started"
+  | "rabbit_watch_seen" | "rabbit_watch_taken" | "rabbit_trail_started"
+  | "rabbit_threshold_reached";
 
 export type AnalyticsEvent = {
   client_event_id: string;
@@ -28,6 +30,7 @@ const SEQUENCE_KEY = "wonderland_client_sequence";
 const MAX_ATTEMPTS_PER_FLUSH = 3;
 let flushing = false;
 let initialized = false;
+let fallbackSequence = 1;
 
 function storage(kind: "localStorage" | "sessionStorage") {
   if (typeof window === "undefined") return null;
@@ -59,13 +62,13 @@ function sessionId() {
 
 function nextSequence() {
   const store = storage("localStorage");
-  if (!store) return Date.now();
+  if (!store) return fallbackSequence++;
   try {
     const current = Number(store.getItem(SEQUENCE_KEY) ?? "0");
     const next = Number.isFinite(current) ? current + 1 : 1;
     store.setItem(SEQUENCE_KEY, String(next));
     return next;
-  } catch { return Date.now(); }
+  } catch { return fallbackSequence++; }
 }
 
 export async function flushEventQueue() {

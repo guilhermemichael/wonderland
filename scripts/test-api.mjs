@@ -1,20 +1,35 @@
-import { spawn } from "node:child_process";
+import { spawn, execFileSync } from "node:child_process";
 import { resolve } from "node:path";
 import { ensureApiEnvironment, root } from "./ensure-api.mjs";
 
 import { existsSync, rmSync } from "node:fs";
 const python = ensureApiEnvironment();
 const testDbFile = resolve(root, "test_api_smoke.db").replace(/\\/g, "/");
+const serverEnv = {
+  ...process.env,
+  DATABASE_URL: process.env.DATABASE_URL ?? `sqlite:///${testDbFile}`,
+};
+
+if (serverEnv.DATABASE_URL.startsWith("postgresql")) {
+  execFileSync(python, [
+    "-c",
+    "import os, sqlalchemy as sa; url = os.environ['DATABASE_URL'].replace('postgresql://', 'postgresql+psycopg://'); e = sa.create_engine(url).execution_options(isolation_level='AUTOCOMMIT'); c = e.connect(); c.execute(sa.text('DROP SCHEMA public CASCADE; CREATE SCHEMA public;'))"
+  ], { env: serverEnv });
+}
+
+execFileSync(python, ["-m", "alembic", "upgrade", "head"], {
+  cwd: `${root}/apps/api`,
+  stdio: "inherit",
+  env: serverEnv,
+});
+
 const server = spawn(
   python,
   ["-m", "uvicorn", "main:app", "--host", "127.0.0.1", "--port", "8001"],
   {
     cwd: `${root}/apps/api`,
-    stdio: "ignore",
-    env: {
-      ...process.env,
-      DATABASE_URL: process.env.DATABASE_URL ?? `sqlite:///${testDbFile}`,
-    },
+    stdio: "inherit",
+    env: serverEnv,
   }
 );
 

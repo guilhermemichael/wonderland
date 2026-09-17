@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from config import API_CORS_ORIGIN_REGEX, API_CORS_ORIGINS, API_TITLE, API_VERSION
 from database import SessionLocal, check_database_connection, ensure_default_campaign
-from routes import events_router, leads_router, quiz_router, sessions_router
+from routes import events_router, leads_router, quiz_router, sessions_router, rabbit_router
 
 
 @asynccontextmanager
@@ -47,6 +47,7 @@ app.include_router(events_router)
 app.include_router(sessions_router)
 app.include_router(quiz_router)
 app.include_router(leads_router)
+app.include_router(rabbit_router)
 
 
 @app.get("/api/v1/health")

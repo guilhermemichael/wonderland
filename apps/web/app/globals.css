@@ -52,9 +52,9 @@ button { cursor: pointer; }
 .nav-links a { opacity: .78; transition: opacity 180ms ease; }
 .nav-links a:hover { opacity: 1; }
 
-.landing { position: relative; min-height: 100svh; display: grid; place-items: center; background: var(--surface-nocturne-deep); color: var(--text-inverse); }
+.landing { position: relative; min-height: 100svh; display: grid; place-items: center; background: var(--surface-nocturne-deep); color: var(--text-inverse); overflow-x: clip; }
 .landing::before { content: ""; position: absolute; inset: 0; opacity: .16; background: repeating-linear-gradient(90deg, transparent 0 11.9%, rgba(242,235,221,.13) 12% 12.05%), repeating-linear-gradient(0deg, transparent 0 19.9%, rgba(242,235,221,.1) 20% 20.05%); pointer-events: none; }
-.landing::after { content: ""; position: absolute; width: min(62vw, 760px); height: min(62vw, 760px); border: 1px solid rgba(193,154,88,.4); border-radius: 50%; transform: rotate(-15deg); box-shadow: 0 0 0 38px rgba(193,154,88,.035), 0 0 0 82px rgba(193,154,88,.025); }
+.landing::after { content: ""; position: absolute; width: min(62vw, 760px); height: min(62vw, 760px); border: 1px solid rgba(193,154,88,.4); border-radius: 50%; transform: rotate(-15deg); box-shadow: 0 0 0 38px rgba(193,154,88,.035), 0 0 0 82px rgba(193,154,88,.025); pointer-events: none; }
 .landing-content { position: relative; z-index: 1; width: min(1120px, calc(100% - 40px)); padding: 140px 0 100px; }
 .eyebrow { margin-bottom: 26px; color: var(--accent-gold-light, #d5b97d); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; }
 .hero-title { max-width: 850px; margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(58px, 10vw, 128px); font-weight: 400; line-height: .84; letter-spacing: -.055em; }
@@ -320,4 +320,52 @@ button { cursor: pointer; }
 }
 .affinity-mysterious {
   color: var(--data-mysterious);
+}
+
+/* --- Rabbit Experience Styles --- */
+
+.rabbit-experience-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+  width: 100%;
+}
+
+.fade-in {
+  animation: fadeIn 1.2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rabbit-title {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(32px, 6vw, 72px);
+  color: var(--text-inverse);
+  text-align: center;
+}
+
+.rabbit-subtitle {
+  color: var(--text-inverse-muted);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.watch-content {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 10;
 }

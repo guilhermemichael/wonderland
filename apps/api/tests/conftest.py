@@ -17,7 +17,7 @@ import database
 import os
 
 # Test database connection
-TEST_DB_URL = os.getenv("TEST_DATABASE_URL", "postgresql+psycopg://wonderland:wonderland_dev_password@localhost:5432/wonderland_test")
+TEST_DB_URL = os.getenv("TEST_DATABASE_URL", "postgresql+psycopg://postgres@localhost:5432/wonderland_test")
 
 if "sqlite" in TEST_DB_URL:
     test_engine = create_engine(
