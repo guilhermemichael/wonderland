@@ -7,22 +7,19 @@ if str(api_dir) not in sys.path:
 
 from contextlib import asynccontextmanager
 from collections.abc import AsyncGenerator
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from config import API_CORS_ORIGINS, API_TITLE, API_VERSION
-from database import SessionLocal, check_database_connection, ensure_default_campaign, engine
+from config import API_CORS_ORIGIN_REGEX, API_CORS_ORIGINS, API_TITLE, API_VERSION
+from database import SessionLocal, check_database_connection, ensure_default_campaign
 from routes import events_router, leads_router, quiz_router, sessions_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    """Lifespan context verifying database connectivity and bootstrapping the default campaign.
-    
-    In M02, PostgreSQL connectivity is mandatory. No silent fallback to memory is permitted.
-    """
+    """Verify PostgreSQL connectivity and bootstrap the canonical campaign."""
     check_database_connection()
-    from models import Base
     db = SessionLocal()
     try:
         ensure_default_campaign(db)
@@ -41,6 +38,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=API_CORS_ORIGINS,
+    allow_origin_regex=API_CORS_ORIGIN_REGEX,
     allow_methods=["GET", "POST", "PATCH", "OPTIONS"],
     allow_headers=["*"],
 )
@@ -58,8 +56,8 @@ def health() -> dict[str, str]:
     db_status = "connected"
     try:
         check_database_connection()
-    except Exception as e:
-        db_status = f"unreachable: {e}"
+    except Exception as exc:
+        db_status = f"unreachable: {exc}"
 
     return {
         "status": "ok" if db_status == "connected" else "degraded",
