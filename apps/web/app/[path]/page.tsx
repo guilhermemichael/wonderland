@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 const experiences = {
   rabbit: { title: "Curiosity will take you places reason never could.", detail: "The Rabbit keeps moving. There may be a map somewhere, but it is still being written.", next: "Return to the crossroads", href: "/crossroads" },
   hatter: { title: "Time has stopped. Manners have too.", detail: "Take a seat. The tea is already cold, which is how we like it.", next: "Return to the crossroads", href: "/crossroads" },
-  cheshire: { title: "Answers are terribly overrated.", detail: "Questions, on the other hand, have such excellent teeth.", next: "Ask the cat", href: "/cheshire/quiz" },
 };
 
 export function generateStaticParams() {
