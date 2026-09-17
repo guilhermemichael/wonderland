@@ -193,3 +193,35 @@ def submit_quiz(
         submitted_at=submission.submitted_at,
         scoring_version=submission.scoring_version,
     )
+
+
+@router.get(
+    "/api/v1/sessions/{public_session_id}/quiz/result",
+    response_model=QuizSubmissionResponse,
+)
+@router.get(
+    "/api/sessions/{public_session_id}/quiz/result",
+    response_model=QuizSubmissionResponse,
+)
+def get_quiz_result(
+    public_session_id: UUID,
+    db: Session = Depends(get_db),
+) -> QuizSubmissionResponse:
+    """Retrieve the authoritative quiz submission result for a session."""
+    session = _get_session_or_404(public_session_id, db)
+
+    stmt = select(QuizSubmission).where(QuizSubmission.session_id == session.id)
+    submission = db.execute(stmt).scalar_one_or_none()
+    if not submission:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quiz submission not found")
+
+    return QuizSubmissionResponse(
+        session_id=session.public_session_id,
+        curious_score=submission.curious_score,
+        chaotic_score=submission.chaotic_score,
+        mysterious_score=submission.mysterious_score,
+        final_segment=submission.final_segment,
+        confidence=submission.confidence,
+        submitted_at=submission.submitted_at,
+        scoring_version=submission.scoring_version,
+    )

@@ -63,8 +63,37 @@ export async function fetchOrInitializeSession(): Promise<SessionState | null> {
   return null;
 }
 
+export async function forceNewSession(): Promise<SessionState | null> {
+  const store = storage();
+  if (!store) return null;
+
+  try {
+    const response = await fetch(`${apiBaseUrl()}/sessions`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        campaign_slug: "wonderland",
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      store.setItem(SESSION_KEY, data.public_session_id);
+      return data;
+    }
+  } catch {
+    //
+  }
+
+  return null;
+}
+
 export function getLocalSessionId(): string | undefined {
   return storage()?.getItem(SESSION_KEY) ?? undefined;
+}
+
+export function clearLocalSessionId(): void {
+  storage()?.removeItem(SESSION_KEY);
 }
 
 export async function updateSession(updates: Partial<Pick<SessionState, "selected_path" | "entry_affinity" | "final_segment">>): Promise<boolean> {
