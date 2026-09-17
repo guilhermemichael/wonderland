@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: wonderland-api
+    env: python
+    buildCommand: "pip install -r apps/api/requirements.txt"
+    preDeployCommand: "cd apps/api && alembic upgrade head"
+    startCommand: "cd apps/api && uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wonderland-db
+          property: connectionString
+      - key: API_CORS_ORIGINS
+        value: "https://wonderland-ochre.vercel.app,http://localhost:3000,http://127.0.0.1:3000"
+
+databases:
+  - name: wonderland-db
+    databaseName: wonderland
+    user: wonderland

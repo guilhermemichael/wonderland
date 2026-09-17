@@ -27,10 +27,7 @@ function storage(kind: "localStorage" | "sessionStorage") {
   try { return window[kind]; } catch { return null; }
 }
 
-function apiEventsUrl() {
-  const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
-  return base.endsWith("/api/v1") ? `${base}/events` : `${base}/api/v1/events`;
-}
+import { apiEventsUrl } from "./api-client";
 
 function readQueue(): QueuedEvent[] {
   const store = storage("localStorage");

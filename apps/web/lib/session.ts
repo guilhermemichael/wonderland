@@ -19,10 +19,7 @@ function storage() {
   }
 }
 
-function apiBaseUrl() {
-  const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
-  return base.endsWith("/api/v1") ? base : `${base}/api/v1`;
-}
+import { apiBaseUrl } from "./api-client";
 
 export async function fetchOrInitializeSession(): Promise<SessionState | null> {
   const store = storage();
@@ -68,4 +65,20 @@ export async function fetchOrInitializeSession(): Promise<SessionState | null> {
 
 export function getLocalSessionId(): string | undefined {
   return storage()?.getItem(SESSION_KEY) ?? undefined;
+}
+
+export async function updateSession(updates: Partial<Pick<SessionState, "selected_path" | "entry_affinity" | "final_segment">>): Promise<boolean> {
+  const sessionId = getLocalSessionId();
+  if (!sessionId) return false;
+
+  try {
+    const response = await fetch(`${apiBaseUrl()}/sessions/${sessionId}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(updates),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
