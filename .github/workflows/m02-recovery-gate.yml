@@ -192,7 +192,10 @@ jobs:
             uvicorn main:app --host 127.0.0.1 --port 8000 > /tmp/wonderland-api.log 2>&1
           ) &
           API_PID=$!
-          npm --workspace apps/web run start -- -H 127.0.0.1 -p 3000 > /tmp/wonderland-web.log 2>&1 &
+          (
+            cd apps/web
+            npx next start -H 127.0.0.1 -p 3000 > /tmp/wonderland-web.log 2>&1
+          ) &
           WEB_PID=$!
           cleanup() {
             kill "$API_PID" "$WEB_PID" 2>/dev/null || true
