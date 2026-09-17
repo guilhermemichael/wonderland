@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { trackEvent } from "../lib/analytics";
+import { updateSession } from "../lib/session";
 
 const paths = [
   { id: "rabbit", number: "01", title: "Follow the Rabbit", copy: "Curiosity will take you places reason never could.", cta: "Explore", href: "/rabbit" },
@@ -14,7 +15,17 @@ type CrossroadsProps = { page?: string };
 export function Crossroads({ page = "/" }: CrossroadsProps) {
   const [activePath, setActivePath] = useState<(typeof paths)[number]["id"]>("rabbit");
   const active = paths.find((path) => path.id === activePath) ?? paths[0];
-  const confirmPath = () => trackEvent({ event_name: "path_selected", page, properties: { surface: "crossroads", path: active.id } });
+  const confirmPath = (e?: React.MouseEvent) => {
+    // Determine the affinity based on path choice
+    let entry_affinity = "curious";
+    if (active.id === "hatter") entry_affinity = "chaotic";
+    else if (active.id === "cheshire") entry_affinity = "mysterious";
+
+    // Attempt session update in the background, don't wait to emit event
+    void updateSession({ selected_path: active.id, entry_affinity });
+
+    trackEvent({ event_name: "path_selected", page, properties: { surface: "crossroads", path: active.id } });
+  };
   return (
     <section className="crossroads" aria-labelledby="crossroads-title">
       <p className="section-kicker">The crossroads / 02</p>
@@ -38,7 +49,13 @@ export function Crossroads({ page = "/" }: CrossroadsProps) {
         {paths.map((path) => (
           <article className="path-zone" data-path={path.id} key={path.id}>
             <div><div className="path-number">{path.number}</div><h3>{path.title}</h3><p>{path.copy}</p></div>
-            <a className="path-link" href={path.href} onClick={() => trackEvent({ event_name: "path_selected", page, properties: { surface: "crossroads", path: path.id } })}>{path.cta} ↗</a>
+            <a className="path-link" href={path.href} onClick={(e) => {
+              let entry_affinity = "curious";
+              if (path.id === "hatter") entry_affinity = "chaotic";
+              else if (path.id === "cheshire") entry_affinity = "mysterious";
+              void updateSession({ selected_path: path.id, entry_affinity });
+              trackEvent({ event_name: "path_selected", page, properties: { surface: "crossroads", path: path.id } });
+            }}>{path.cta} ↗</a>
           </article>
         ))}
       </div>

@@ -23,7 +23,6 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     """
     check_database_connection()
     from models import Base
-    Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
         ensure_default_campaign(db)
