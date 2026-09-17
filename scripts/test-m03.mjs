@@ -194,7 +194,9 @@ test("M03 answer-save failure never advances and remains retryable", async () =>
 
     await page.locator('input[value="q1_a"]').check();
     await page.getByRole("button", { name: "Continue" }).click();
-    await page.getByRole("alert").waitFor();
+    const errorBanner = page.locator(".error-banner");
+    await errorBanner.waitFor();
+    assert.match(await errorBanner.innerText(), /prevented your choice from being saved/i);
     assert.match(await page.locator(".eyebrow").innerText(), /Question 1 of 4/i);
 
     await page.unroute("**/api/v1/sessions/**/quiz/answers");
