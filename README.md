@@ -99,7 +99,7 @@ Currently emitted events:
 - `rabbit_hole_skipped` for explicit skip navigation
 - `path_selected` only after a path CTA; mobile previews do not count
 
-The serial queue reconciles each response against the latest localStorage state: an ACK removes only its `client_event_id`, preserving events appended during delivery. Each event gets up to three attempts per flush/recovery cycle, with 250ms/500ms waits. Exhausting a cycle leaves events pending; startup, focus or online starts a new eligible cycle. The stored failure count is diagnostic, never a permanent delivery cutoff. The API store is process memory until PostgreSQL is implemented in Milestone 02. No quiz, lead or conversion backend is implemented in this milestone.
+The serial queue reconciles each response against the latest localStorage state: an ACK removes only its `client_event_id`, preserving events appended during delivery. Each event gets up to three attempts per flush/recovery cycle, with 250ms/500ms waits. Exhausting a cycle leaves events pending; startup, focus or online starts a new eligible cycle. The stored failure count is diagnostic, never a permanent delivery cutoff. The API uses PostgreSQL for persistence. The backend supports quiz, lead and conversion, but the frontend interface for these will be built in Milestone 03.
 
 Navbar `Choose` and the internal skip link call the same synchronous Rabbit Hole operation before anchor scrolling. It emits skip once and suppresses fabricated traversal events; a completed experience cannot be retroactively skipped.
 
@@ -109,11 +109,11 @@ Install the test browser with `npx playwright install chromium`. Run `npm run bu
 
 ## Current milestone
 
-**Milestone 01 — Foundation and narrative entry experience.**
+**Milestone 02 — Data Foundation, persistence, idempotency, and session management.**
 
 ## Next milestone
 
-Milestone 02 will add the Cheshire quiz, server-authoritative scoring, PostgreSQL persistence, session recovery, result segmentation and lead capture. It has not been implemented here.
+Milestone 03 will complete the product flow: building the visual Cheshire quiz interface, handling the submission sequence, displaying segmented results (Curious, Chaotic, Mysterious), providing lead capture, and routing to dynamic destination pages.
 
 ## Quality and accessibility
 

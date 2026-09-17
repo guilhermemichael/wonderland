@@ -14,13 +14,22 @@ if str(api_dir) not in sys.path:
 
 import database
 
-# In-memory test engine for fast isolated unit tests
-TEST_DB_URL = "sqlite:///:memory:"
-test_engine = create_engine(
-    TEST_DB_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-)
+import os
+
+# Test database connection
+TEST_DB_URL = os.getenv("TEST_DATABASE_URL", "postgresql+psycopg://wonderland:wonderland_dev_password@localhost:5432/wonderland_test")
+
+if "sqlite" in TEST_DB_URL:
+    test_engine = create_engine(
+        TEST_DB_URL,
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+    )
+else:
+    test_engine = create_engine(
+        TEST_DB_URL,
+        pool_pre_ping=True,
+    )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, expire_on_commit=False, bind=test_engine, future=True)
 
 # Patch default database module engine for tests
