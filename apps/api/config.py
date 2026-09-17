@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Load root .env if present
@@ -12,6 +13,14 @@ APP_ENV = os.getenv("APP_ENV", "development").strip().lower()
 _database_url = os.getenv("DATABASE_URL")
 if APP_ENV == "production" and not _database_url:
     raise RuntimeError("DATABASE_URL is required when APP_ENV=production")
+
+# Render exposes PostgreSQL URLs as postgresql:// (or legacy postgres://).
+# This project uses psycopg v3, so make the SQLAlchemy driver explicit.
+if _database_url:
+    if _database_url.startswith("postgresql://"):
+        _database_url = _database_url.replace("postgresql://", "postgresql+psycopg://", 1)
+    elif _database_url.startswith("postgres://"):
+        _database_url = _database_url.replace("postgres://", "postgresql+psycopg://", 1)
 
 DATABASE_URL = _database_url or "postgresql+psycopg://wonderland:wonderland_dev_password@localhost:5432/wonderland"
 API_CORS_ORIGINS = [
