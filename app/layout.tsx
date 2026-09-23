@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Mono, Manrope } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import type { ReactNode } from "react";
 
 import { Lifecycle } from "@/components/Lifecycle";
@@ -90,6 +91,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Cursor />
         <div id="veil" className="veil" aria-hidden="true" data-state="idle" />
         <Lifecycle />
+        <Analytics />
       </body>
     </html>
   );
