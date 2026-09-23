@@ -41,7 +41,8 @@ export async function launch({ port = 9333, width = 1440, height = 900 } = {}) {
   ws.addEventListener("message", (ev) => {
     const msg = JSON.parse(ev.data);
     if (msg.id && pending.has(msg.id)) {
-      const { resolve, reject } = pending.get(msg.id);
+      const { resolve, reject, timer } = pending.get(msg.id);
+      clearTimeout(timer);
       pending.delete(msg.id);
       msg.error ? reject(new Error(msg.error.message)) : resolve(msg.result);
     } else if (msg.method) {
@@ -51,7 +52,11 @@ export async function launch({ port = 9333, width = 1440, height = 900 } = {}) {
   const send = (method, params = {}) =>
     new Promise((resolve, reject) => {
       const mid = ++id;
-      pending.set(mid, { resolve, reject });
+      const timer = setTimeout(() => {
+        pending.delete(mid);
+        reject(new Error(`CDP timeout: ${method}`));
+      }, 30000);
+      pending.set(mid, { resolve, reject, timer });
       ws.send(JSON.stringify({ id: mid, method, params }));
     });
   const on = (method, fn) => listeners.set(method, [...(listeners.get(method) ?? []), fn]);
@@ -113,6 +118,8 @@ export async function launch({ port = 9333, width = 1440, height = 900 } = {}) {
         await Promise.race([send("Browser.close"), sleep(3000)]);
       } catch {}
       ws.close();
+      for (const entry of pending.values()) clearTimeout(entry.timer);
+      pending.clear();
       proc.kill();
     },
   };

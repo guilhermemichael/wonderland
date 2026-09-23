@@ -9,11 +9,12 @@ const out = process.argv[2] || '.qa/release/matrix';
 mkdirSync(out, { recursive: true });
 const report = { base, viewports: [], noJS: [], failures: [] };
 const sizes = [[375,812],[375,667],[390,844],[768,1024],[1280,800],[1440,900],[1920,1080]];
-const b = await launch({ port: 9458 });
+let b;
 const responses = [];
-b.on('Network.responseReceived', p => { if (p.response.status >= 400) responses.push({url:p.response.url,status:p.response.status}); });
 try {
   for (const [w,h] of sizes) {
+    b = await launch({ port: 9458 });
+    b.on('Network.responseReceived', p => { if (p.response.status >= 400) responses.push({url:p.response.url,status:p.response.status}); });
     await b.viewport(w,h,{mobile:w<800,touch:w<800});
     for (const path of ['', 'rabbit/', 'hatter/', 'cheshire/']) {
       b.logs.length=0;
@@ -42,8 +43,12 @@ try {
       }
       await b.shot(join(out,`${w}x${h}-${path.replace('/','')||'home'}.jpg`));
       report.viewports.push({w,h,path,...state,videoRequests:videos,errors,httpErrors:[...responses]});
+      writeFileSync(join(out,'report.json'),JSON.stringify(report,null,2));
+      console.log(`${w}x${h} ${path || '/'} checked`);
     }
+    await b.close();
   }
+  b = await launch({ port: 9458 });
   await b.send('Emulation.setScriptExecutionDisabled',{value:true});
   for(const path of ['', 'rabbit/', 'hatter/', 'cheshire/']) {
     await b.go(base+path,500);
@@ -51,7 +56,7 @@ try {
   }
 } finally {
   writeFileSync(join(out,'report.json'),JSON.stringify(report,null,2));
-  await b.close();
+  await b?.close();
 }
 console.log(JSON.stringify({pages:report.viewports.length,noJS:report.noJS.length,failures:report.failures},null,2));
 assert.equal(report.failures.length,0);
