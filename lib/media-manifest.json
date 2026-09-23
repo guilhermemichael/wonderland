@@ -1,0 +1,122 @@
+{
+  "plates": {
+    "cheshire": {
+      "widths": [
+        1280,
+        1920,
+        2560
+      ],
+      "portrait": [
+        720,
+        1080
+      ]
+    },
+    "crossroads": {
+      "widths": [
+        1280,
+        1920,
+        2560
+      ],
+      "portrait": [
+        720,
+        1080
+      ]
+    },
+    "disorientation": {
+      "widths": [
+        1280,
+        1920,
+        2560
+      ],
+      "portrait": [
+        720,
+        1080
+      ]
+    },
+    "fall": {
+      "widths": [
+        1280,
+        1920,
+        2560
+      ],
+      "portrait": [
+        720,
+        1080
+      ]
+    },
+    "hatter": {
+      "widths": [
+        1280,
+        1920,
+        2560
+      ],
+      "portrait": [
+        720,
+        1080
+      ]
+    },
+    "landing": {
+      "widths": [
+        1280,
+        1920,
+        2560
+      ],
+      "portrait": [
+        720,
+        1080
+      ]
+    },
+    "rabbit": {
+      "widths": [
+        1280,
+        1920,
+        2560
+      ],
+      "portrait": [
+        720,
+        1080
+      ]
+    },
+    "threshold": {
+      "widths": [
+        1280,
+        1920
+      ],
+      "portrait": [
+        720
+      ]
+    }
+  },
+  "videos": {
+    "1": {
+      "src": "/media/scrub-1.mp4",
+      "bytes": 7075688,
+      "frames": 192,
+      "fps": 24.0
+    },
+    "2": {
+      "src": "/media/scrub-2.mp4",
+      "bytes": 7553302,
+      "frames": 192,
+      "fps": 24.0
+    },
+    "3": {
+      "src": "/media/scrub-3.mp4",
+      "bytes": 9414290,
+      "frames": 192,
+      "fps": 24.0
+    },
+    "4": {
+      "src": "/media/scrub-4.mp4",
+      "bytes": 12551287,
+      "frames": 240,
+      "fps": 24.0
+    },
+    "5": {
+      "src": "/media/scrub-5.mp4",
+      "bytes": 13404699,
+      "frames": 240,
+      "fps": 24.0
+    }
+  }
+}

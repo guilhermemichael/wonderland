@@ -1,0 +1,27 @@
+{
+  "name": "wonderland",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WONDERLAND: uma descida interativa ao desconhecido.",
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "npx http-server out -p 4173 -c-1",
+    "typecheck": "tsc --noEmit",
+    "media": "python scripts/media/build_media.py"
+  },
+  "dependencies": {
+    "gsap": "3.15.0",
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "ffmpeg-static": "5.3.0",
+    "typescript": "5.9.3"
+  }
+}

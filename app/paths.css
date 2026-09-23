@@ -1,0 +1,429 @@
+/* ==========================================================================
+   WONDERLAND · the three paths (FT6 Rabbit, FT7 Hatter, FT8 Cheshire)
+   One scene per page, same atmosphere as the journey. Wide screens: the
+   frame full-bleed with the editorial column. Narrow or portrait: the frame
+   first, the copy beneath.
+   ========================================================================== */
+
+.path-stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  container-type: size;
+  isolation: isolate;
+  background: var(--canvas-deep);
+}
+.path-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.path-media .par {
+  position: absolute;
+  inset: 0;
+}
+.path-zoom {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.path-media .plate {
+  --o: 1;
+}
+.path-media .scrim-global {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 120% 90% at 58% 46%, rgba(var(--scrim-rgb), 0) 42%, rgba(var(--scrim-rgb), 0.48) 100%),
+    linear-gradient(to bottom, rgba(var(--scrim-rgb), 0.45), transparent 16%, transparent 80%, rgba(var(--scrim-rgb), 0.6));
+}
+.path-scrim {
+  position: absolute;
+  left: -8vw;
+  top: 4vh;
+  width: 56vw;
+  height: 92vh;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 56% 56% at 40% 50%,
+    rgba(var(--scrim-rgb), 0.62) 0%,
+    rgba(var(--scrim-rgb), 0.42) 46%,
+    rgba(var(--scrim-rgb), 0) 76%
+  );
+  transition: opacity 1.2s var(--ease-out);
+}
+.path .motes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* HUD: label top-left under the nav, telemetry top-right */
+.path-label {
+  position: absolute;
+  left: var(--gutter);
+  top: calc(var(--nav-h) + 1.6vh);
+  z-index: 3;
+  font: 500 0.7rem/1 var(--font-body);
+  letter-spacing: 0.18em;
+  color: var(--text-secondary);
+  text-shadow: var(--tshadow);
+}
+.path-telemetry {
+  position: absolute;
+  right: var(--gutter);
+  top: calc(var(--nav-h) + 1.2vh);
+  z-index: 3;
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+  font: 400 0.68rem/1.2 var(--font-mono);
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  text-shadow: var(--tshadow);
+}
+.path-telemetry div {
+  display: flex;
+  gap: 6px;
+}
+.path-telemetry dd {
+  color: var(--text-primary);
+}
+.path--hatter .path-telemetry dt {
+  color: var(--warm-amber);
+}
+
+.path-band {
+  position: absolute;
+  z-index: 3;
+  left: var(--col-x, 5.4vw);
+  top: var(--col-y, 26vh);
+  width: min(30vw, 580px);
+  /* the entrance runs from first paint, with no script involved */
+  --k: 1;
+  animation: path-in 2.6s var(--ease-out) 0.25s both;
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+}
+@keyframes path-in {
+  from {
+    --k: 0;
+  }
+  to {
+    --k: 1;
+  }
+}
+.path--rabbit {
+  --col-x: 5.4vw;
+  --col-y: 27vh;
+}
+.path--hatter {
+  --col-x: 6vw;
+  --col-y: 25vh;
+}
+.path--cheshire {
+  --col-x: 4.2vw;
+  --col-y: 21vh;
+}
+.path-band > * + * {
+  margin-top: clamp(14px, 2.2vh, 24px);
+}
+.path-band .headline {
+  position: relative;
+  font-size: min(4.3vw, 8.4vh);
+  line-height: 0.98;
+  text-shadow: var(--tshadow);
+}
+.path--cheshire .path-band .headline {
+  font-size: min(3.05vw, 6.2vh);
+}
+.path--hatter .path-band .headline {
+  font-size: min(4vw, 8vh);
+}
+.path-band .kicker,
+.path-band .body {
+  text-shadow: var(--tshadow);
+}
+.path--hatter .path-band .kicker {
+  color: var(--warm-amber);
+}
+.path--hatter .path-band .cta {
+  color: var(--warm-amber);
+}
+.path-band .band-actions {
+  margin-top: clamp(22px, 3.6vh, 40px);
+}
+.path[data-closer="1"] .path-band {
+  opacity: 0;
+  transform: translate3d(-24px, 0, 0);
+}
+.path[data-closer="1"] .path-scrim {
+  opacity: 0.35;
+}
+
+.path-closer {
+  position: absolute;
+  z-index: 4;
+  left: var(--gutter);
+  bottom: calc(max(18px, 3.4vh) + 56px);
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  transition:
+    opacity 0.7s var(--ease-out) 0.5s,
+    transform 0.7s var(--ease-out) 0.5s;
+}
+.path-closer[data-open="1"] {
+  opacity: 1;
+  transform: none;
+}
+.path-closer[data-open="0"] {
+  transition-delay: 0s;
+  pointer-events: none;
+}
+.cta--back .arrow {
+  order: -1;
+}
+.cta--back:hover .arrow,
+.cta--back:focus-visible .arrow {
+  transform: translateX(-3px);
+}
+
+.path-bar {
+  position: absolute;
+  z-index: 4;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: max(18px, 3.4vh);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  font: 400 0.66rem/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+  text-shadow: var(--tshadow);
+}
+.path-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  color: var(--text-primary);
+  transition: color var(--t-std) var(--ease-out);
+}
+.path-back .arrow {
+  width: 13px;
+  height: 13px;
+  transition: transform var(--t-expr) var(--ease-out);
+}
+.path-back:hover .arrow,
+.path-back:focus-visible .arrow {
+  transform: translateX(-3px);
+}
+.path-index {
+  display: flex;
+  gap: 22px;
+}
+.path-index a,
+.path-index span {
+  padding: 8px 0;
+  transition: color var(--t-std) var(--ease-out);
+}
+.path-index a:hover,
+.path-index a:focus-visible {
+  color: var(--text-primary);
+}
+.path-index .is-current {
+  color: var(--antique-gold);
+}
+
+/* ---------------------------------------------------------------- entrances (time-based --k) */
+
+/* rabbit: characters snap into line in reading order, the way tracks lead */
+.path--rabbit .headline .c {
+  --kc: clamp(0, (var(--k) - var(--th)) * 2.6, 1);
+  opacity: var(--kc);
+  transform: translate3d(calc((1 - var(--kc)) * var(--jx)), 0, 0);
+}
+/* hatter: the curtain parts, line one from the left, line two from the right,
+   each word landing with a small theatrical overshoot */
+.path--hatter .headline .w {
+  --kc: clamp(0, (var(--k) - var(--th)) * 2.4, 1);
+  --ks: clamp(0, (var(--k) - var(--th) - 0.14) * 2.6, 1);
+  opacity: var(--kc);
+  transform: translate3d(calc((1 - var(--kc)) * var(--dir, -1) * 0.9em), 0, 0)
+    scale(calc(0.9 + 0.14 * var(--kc) - 0.04 * var(--ks)));
+}
+.path--hatter .headline .ln:nth-child(2) {
+  --dir: 1;
+}
+/* cheshire: vision surfacing through mist; a static soft copy fades as the
+   sharp one arrives (filter is never animated) */
+.path--cheshire .headline .split {
+  opacity: clamp(0, (var(--k) - 0.15) * 1.6, 1);
+}
+.headline-soft {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: start;
+  filter: blur(9px);
+  opacity: calc(clamp(0, var(--k) * 2.2, 1) * (1 - clamp(0, (var(--k) - 0.35) * 1.8, 1)));
+  pointer-events: none;
+}
+.path-band .kicker {
+  opacity: clamp(0, var(--k) * 2.6, 1);
+}
+.path-band .body {
+  --kb: clamp(0, (var(--k) - 0.45) * 2.4, 1);
+  opacity: var(--kb);
+  transform: translate3d(0, calc((1 - var(--kb)) * 10px), 0);
+}
+.path-band .band-actions {
+  opacity: clamp(0, (var(--k) - 0.66) * 3, 1);
+}
+html:not(.js) .path-band {
+  --k: 1;
+}
+
+/* closer looks: the scene answers the reader */
+.path--rabbit[data-closer="1"] [data-life="clock"] .life-region-img {
+  rotate: 1.1deg;
+}
+.path--rabbit[data-closer="1"] [data-react="door"] {
+  scale: 1.5;
+}
+.path--hatter[data-closer="1"] [data-react="steam"] {
+  --sa: 0.9;
+}
+.path--hatter[data-closer="1"] [data-life="hat"] .life-region-img {
+  translate: 0 -3px;
+}
+.path--cheshire[data-closer="1"] [data-life="cat"] .life-region-img {
+  translate: 4px 0;
+}
+.path--cheshire[data-closer="1"] [data-react="mirror"] {
+  scale: 1.6;
+}
+
+/* ---------------------------------------------------------------- narrow / portrait */
+@media (max-width: 720px), (orientation: portrait) {
+  .path-stage {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    container-type: normal;
+    padding-bottom: 14vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .path-media {
+    order: 0;
+  }
+  .path-band {
+    order: 1;
+  }
+  .path-telemetry {
+    order: 2;
+  }
+  .path-closer {
+    order: 3;
+  }
+  .path-bar {
+    order: 4;
+  }
+  .path-label {
+    order: -1;
+  }
+  .path-media {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 4 / 5;
+    max-height: 80svh;
+    overflow: hidden;
+    container-type: size;
+  }
+  .path-media .frame {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+  .path-media .life .life-region,
+  .path-media .life .life-glow,
+  .path-media .life-mist,
+  .path-media .life-steam,
+  .path-media .life-cat,
+  .path-media .life-whisper {
+    display: none;
+  }
+  .path-media::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 45%;
+    background: linear-gradient(to bottom, rgba(7, 17, 24, 0), var(--canvas-deep));
+  }
+  .path-scrim {
+    display: none;
+  }
+  .path-label {
+    position: relative;
+    inset: auto;
+    margin: calc(var(--nav-h) + 2.2vh) var(--gutter) 1.6vh;
+  }
+  .path-telemetry {
+    position: relative;
+    inset: auto;
+    justify-items: start;
+    margin: 4.5vh var(--gutter) 0;
+  }
+  .path-band {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    margin-top: -16vh;
+    padding: 0 var(--gutter);
+  }
+  .path-band .headline,
+  .path--hatter .path-band .headline {
+    font-size: clamp(2.4rem, 1rem + 8vw, 4rem);
+  }
+  .path--cheshire .path-band .headline {
+    font-size: clamp(2rem, 0.9rem + 6vw, 3.2rem);
+  }
+  .path-closer {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin: 4vh var(--gutter) 0;
+  }
+  .path-closer[data-open="0"] {
+    display: none;
+  }
+  .path[data-closer="1"] .path-band {
+    opacity: 1;
+    transform: none;
+  }
+  .path-bar {
+    position: relative;
+    inset: auto;
+    margin: 7vh var(--gutter) 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-height: 560px) and (orientation: landscape) {
+  .path-telemetry {
+    display: none;
+  }
+}

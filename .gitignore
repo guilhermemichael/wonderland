@@ -1,0 +1,17 @@
+node_modules/
+.next/
+out/
+.media-work/
+*.tsbuildinfo
+next-env.d.ts
+__pycache__/
+.qa/
+.vercel/
+.env*
+!.env.example
+*.log
+.claude/
+# Approved originals stay local; deploy the existing web derivatives.
+/FT*.JPEG
+/FT*.jpeg
+/VD*.mp4

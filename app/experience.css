@@ -1,0 +1,1436 @@
+/* ==========================================================================
+   WONDERLAND · the journey
+   Default rules = the static-first experience (phones, portrait tablets,
+   coarse pointers, short landscape phones, reduced motion, and no-JS).
+   html[data-mode="scrub"] = the desktop timeline. The mode is decided by
+   the five gates in lib/gates.ts, before first paint and live afterwards.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- shared frame
+   A 16:9 box that covers its container, so plates, videos, life layers and
+   hotspots share one coordinate system at every viewport. */
+.frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100cqw, 177.7778cqh);
+  height: max(56.25cqw, 100cqh);
+  --fw: max(100cqw, 177.7778cqh);
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+.plate {
+  position: absolute;
+  inset: 0;
+  opacity: var(--o, 0);
+  transform: scale(var(--s, 1));
+  transform-origin: 50% 50%;
+}
+.plate[data-plate="threshold"] {
+  --o: 1;
+}
+.plate.is-dead {
+  visibility: hidden;
+}
+.plate-pic,
+.plate-pic img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.plate-pic img {
+  object-fit: cover;
+}
+
+video.scrub {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: translateZ(0);
+  transition: opacity 0.36s var(--ease-out);
+  pointer-events: none;
+}
+video.scrub.is-on {
+  opacity: 1;
+}
+
+.stage.is-swapping .plate {
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out);
+}
+
+/* ---------------------------------------------------------------- life layers */
+.life {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.life-region {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--w) * 1%);
+  height: calc(var(--h) * 1%);
+  -webkit-mask-image: radial-gradient(closest-side, #000 var(--core), transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 var(--core), transparent 100%);
+  translate: calc(var(--px, 0) * var(--dk, 0) * 1px) calc(var(--py, 0) * var(--dk, 0) * 1px);
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out);
+}
+.life-region.has-hole {
+  -webkit-mask-image:
+    radial-gradient(closest-side, #000 var(--core), transparent 100%),
+    linear-gradient(to right, #000 var(--h0), transparent var(--h0), transparent var(--h1), #000 var(--h1));
+  mask-image:
+    radial-gradient(closest-side, #000 var(--core), transparent 100%),
+    linear-gradient(to right, #000 var(--h0), transparent var(--h0), transparent var(--h1), #000 var(--h1));
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.life-region.depth-mid {
+  --dk: 2;
+}
+.life-region.depth-fg {
+  --dk: 5;
+}
+.is-loaded > .life .life-region {
+  opacity: 1;
+}
+.life-region-img {
+  position: absolute;
+  inset: 0;
+  background-image: var(--plate-img);
+  background-repeat: no-repeat;
+  background-size: calc(10000% / var(--w)) calc(10000% / var(--h));
+  background-position: calc(var(--x) / (100 - var(--w)) * 100%) calc(var(--y) / (100 - var(--h)) * 100%);
+  transform-origin: var(--ox) var(--oy);
+  animation: var(--an) var(--ad) cubic-bezier(0.45, 0.05, 0.55, 0.95) var(--adl) infinite;
+  will-change: transform;
+  transition:
+    rotate 1.2s var(--ease-out),
+    translate 1.2s var(--ease-out),
+    scale 1.2s var(--ease-out);
+}
+.is-dead .life-region-img,
+.plate:not(.is-loaded) .life-region-img {
+  animation-play-state: paused;
+  will-change: auto;
+}
+
+@keyframes life-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(var(--ax), var(--ay), 0) rotate(var(--ar));
+  }
+}
+@keyframes life-sway {
+  0%,
+  100% {
+    transform: rotate(calc(var(--ar) * -1));
+  }
+  50% {
+    transform: rotate(var(--ar));
+  }
+}
+@keyframes life-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(var(--as));
+  }
+}
+@keyframes life-flutter {
+  0%,
+  100% {
+    transform: skewX(0deg) rotate(0deg);
+  }
+  28% {
+    transform: skewX(calc(var(--ar) * 0.6)) rotate(calc(var(--ar) * 0.4));
+  }
+  61% {
+    transform: skewX(calc(var(--ar) * -0.4)) rotate(calc(var(--ar) * -0.3));
+  }
+}
+@keyframes life-twitch {
+  0%,
+  84%,
+  100% {
+    transform: rotate(0deg);
+  }
+  87% {
+    transform: rotate(var(--ar));
+  }
+  90% {
+    transform: rotate(calc(var(--ar) * -0.45));
+  }
+  93% {
+    transform: rotate(calc(var(--ar) * 0.2));
+  }
+}
+@keyframes life-glance {
+  0%,
+  16%,
+  100% {
+    transform: rotate(0deg);
+  }
+  24%,
+  38% {
+    transform: rotate(calc(var(--ar) * -1));
+  }
+  46%,
+  60% {
+    transform: rotate(0deg);
+  }
+  68%,
+  80% {
+    transform: rotate(calc(var(--ar) * 0.7));
+  }
+  88% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes life-tick {
+  0%,
+  18% {
+    transform: rotate(0deg);
+  }
+  20%,
+  52% {
+    transform: rotate(var(--ar));
+  }
+  54%,
+  76% {
+    transform: rotate(calc(var(--ar) * 0.35));
+  }
+  78%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+/* the compass: tries, stops, trembles, changes its mind, never chooses.
+   Once per cycle it aligns for a breath. */
+@keyframes life-hesitate {
+  0% {
+    transform: rotate(0deg);
+  }
+  14% {
+    transform: rotate(var(--ar));
+  }
+  21% {
+    transform: rotate(calc(var(--ar) * 0.78));
+  }
+  22.5% {
+    transform: rotate(calc(var(--ar) * 0.86));
+  }
+  24% {
+    transform: rotate(calc(var(--ar) * 0.76));
+  }
+  25.5% {
+    transform: rotate(calc(var(--ar) * 0.82));
+  }
+  40% {
+    transform: rotate(calc(var(--ar) * -0.72));
+  }
+  52% {
+    transform: rotate(calc(var(--ar) * -0.5));
+  }
+  62%,
+  66% {
+    transform: rotate(0deg);
+  }
+  80% {
+    transform: rotate(calc(var(--ar) * 0.42));
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes life-hatlift {
+  0%,
+  88%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  91%,
+  94% {
+    transform: translate3d(0, var(--ay), 0) rotate(-0.8deg);
+  }
+}
+
+.life-glow {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--r) * 2%);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--c), transparent);
+  mix-blend-mode: screen;
+  opacity: var(--o0);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transition: scale 1s var(--ease-out);
+}
+@keyframes life-pulse {
+  0%,
+  100% {
+    opacity: var(--o0);
+  }
+  50% {
+    opacity: var(--o1);
+  }
+}
+@keyframes life-flicker {
+  0%,
+  100% {
+    opacity: var(--o0);
+  }
+  7% {
+    opacity: var(--o1);
+  }
+  11% {
+    opacity: calc(var(--o0) + (var(--o1) - var(--o0)) * 0.55);
+  }
+  19% {
+    opacity: calc(var(--o0) + (var(--o1) - var(--o0)) * 0.9);
+  }
+  33% {
+    opacity: calc(var(--o0) + (var(--o1) - var(--o0)) * 0.4);
+  }
+  47% {
+    opacity: var(--o1);
+  }
+  71% {
+    opacity: calc(var(--o0) + (var(--o1) - var(--o0)) * 0.6);
+  }
+}
+
+.life-mist {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--w) * 1%);
+  height: calc(var(--h) * 1%);
+  opacity: var(--mo);
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 42% 46% at 30% 56%, color-mix(in srgb, var(--tint) 70%, transparent), transparent 72%),
+    radial-gradient(ellipse 36% 40% at 68% 48%, color-mix(in srgb, var(--tint) 55%, transparent), transparent 70%),
+    radial-gradient(ellipse 30% 30% at 50% 70%, color-mix(in srgb, var(--tint) 40%, transparent), transparent 70%);
+  animation-name: life-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transition: opacity 1.2s var(--ease-out);
+}
+@keyframes life-drift {
+  0%,
+  100% {
+    transform: translate3d(-5%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, -3%, 0) scale(1.08);
+  }
+}
+
+.life-steam {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--size) * 1%);
+  translate: -50% -100%;
+  overflow: visible;
+  fill: none;
+  stroke: rgb(240 232 220 / var(--sa, 0.5));
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  filter: blur(2.2px);
+  opacity: 0;
+  animation-name: life-steam;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform-origin: 50% 100%;
+}
+.life-steam path:nth-child(2) {
+  opacity: 0.6;
+}
+@keyframes life-steam {
+  0% {
+    opacity: 0;
+    transform: translateY(8%) scaleX(0.9);
+  }
+  28% {
+    opacity: 0.55;
+  }
+  68% {
+    opacity: 0.28;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20%) scaleX(1.18);
+  }
+}
+
+.life-cat {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--size) * 1%);
+  fill: rgb(5 9 15 / 0.82);
+  filter: blur(1.4px);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  animation-name: life-cat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.life-cat.is-flipped {
+  scale: -1 1;
+}
+@keyframes life-cat {
+  0%,
+  82% {
+    opacity: 0;
+    transform: translate3d(-10%, 0, 0);
+  }
+  86% {
+    opacity: 0.58;
+    transform: translate3d(0, 0, 0);
+  }
+  90% {
+    opacity: 0.62;
+    transform: translate3d(6%, 0, 0) skewX(-2deg);
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: translate3d(14%, 0, 0);
+  }
+}
+
+.life-whisper {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--w) * 1%);
+  rotate: var(--rot);
+  font: 500 calc(var(--fw, 100vw) * 0.0086) / 1 var(--font-display);
+  letter-spacing: 0.14em;
+  text-align: center;
+  color: rgb(38 26 16 / 0.9);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  animation-name: life-whisper;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes life-whisper {
+  0%,
+  87%,
+  100% {
+    opacity: 0;
+  }
+  90%,
+  95% {
+    opacity: 0.72;
+  }
+}
+
+/* ---------------------------------------------------------------- crossroads reactions
+   CSS only: the scene answers the hovered or focused path; the others dim.
+   Nothing suggests which path is right. */
+.xr-react {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.xr-react > * {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out);
+}
+.rx-light {
+  border-radius: 50%;
+  mix-blend-mode: screen;
+}
+.rx-rabbit {
+  left: 1%;
+  top: 34%;
+  width: 26%;
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(126, 206, 208, 0.34), transparent);
+}
+.rx-hatter {
+  left: 34%;
+  top: 6%;
+  width: 26%;
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(240, 170, 92, 0.36), transparent);
+}
+.rx-cheshire {
+  left: 76%;
+  top: 22%;
+  width: 26%;
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(168, 188, 236, 0.32), transparent);
+}
+.rx-dim {
+  background: radial-gradient(closest-side, rgba(3, 8, 12, 0.62), transparent);
+  border-radius: 50%;
+}
+.dim-rabbit {
+  left: -6%;
+  top: 30%;
+  width: 40%;
+  height: 76%;
+}
+.dim-hatter {
+  left: 30%;
+  top: -4%;
+  width: 38%;
+  height: 84%;
+}
+.dim-cheshire {
+  left: 70%;
+  top: 12%;
+  width: 36%;
+  height: 76%;
+}
+.experience:has(.hotspot--rabbit:is(:hover, :focus-visible)) .rx-rabbit,
+.experience:has(.hotspot--hatter:is(:hover, :focus-visible)) .rx-hatter,
+.experience:has(.hotspot--cheshire:is(:hover, :focus-visible)) .rx-cheshire {
+  opacity: 1;
+}
+.experience:has(.hotspot--rabbit:is(:hover, :focus-visible)) :is(.dim-hatter, .dim-cheshire),
+.experience:has(.hotspot--hatter:is(:hover, :focus-visible)) :is(.dim-rabbit, .dim-cheshire),
+.experience:has(.hotspot--cheshire:is(:hover, :focus-visible)) :is(.dim-rabbit, .dim-hatter) {
+  opacity: 0.55;
+}
+/* the rabbit on the sign looks toward the path under the cursor */
+.experience:has(.hotspot--rabbit:is(:hover, :focus-visible)) [data-life="head"] .life-region-img {
+  rotate: -2.6deg;
+}
+.experience:has(.hotspot--hatter:is(:hover, :focus-visible)) [data-life="head"] .life-region-img {
+  rotate: -1deg;
+  translate: 0 -1px;
+}
+.experience:has(.hotspot--cheshire:is(:hover, :focus-visible)) [data-life="head"] .life-region-img {
+  rotate: 2.4deg;
+}
+.experience:has(.hotspot--rabbit:is(:hover, :focus-visible)) [data-life="watch"] .life-region-img {
+  rotate: 14deg;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.experience:has(.hotspot--hatter:is(:hover, :focus-visible)) [data-life="hat"] .life-region-img {
+  translate: 0 -3px;
+}
+.experience:has(.hotspot--hatter:is(:hover, :focus-visible)) [data-react="steam"] {
+  --sa: 0.95;
+}
+.experience:has(.hotspot--cheshire:is(:hover, :focus-visible)) [data-life="cat"] .life-region-img {
+  translate: 3px 0;
+  scale: 1.02;
+}
+.experience:has(.hotspot--cheshire:is(:hover, :focus-visible)) [data-react="fog"] {
+  opacity: calc(var(--mo) * 1.9);
+}
+.experience:has(.hotspot--rabbit:is(:hover, :focus-visible)) [data-life="foliage"] .life-region-img {
+  rotate: 1.4deg;
+}
+
+/* ---------------------------------------------------------------- hotspots */
+.xr {
+  position: absolute;
+  inset: 0;
+}
+.hotspot {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--w) * 1%);
+  height: calc(var(--h) * 1%);
+  border-radius: 28px;
+  -webkit-tap-highlight-color: transparent;
+}
+.hotspot:focus-visible {
+  outline: 1px solid rgba(183, 151, 98, 0.9);
+  outline-offset: -10px;
+  box-shadow: inset 0 0 60px rgba(183, 151, 98, 0.12);
+}
+.hotspot-mark {
+  position: absolute;
+  left: var(--mx);
+  top: var(--my);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  translate: -3px -50%;
+  white-space: nowrap;
+}
+.hotspot-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  box-shadow:
+    0 0 0 5px rgba(233, 226, 212, 0.1),
+    0 0 18px rgba(233, 226, 212, 0.45);
+  animation: dot-breathe 3.7s ease-in-out infinite;
+}
+.hotspot--hatter .hotspot-dot {
+  animation-duration: 4.3s;
+  animation-delay: -1.3s;
+}
+.hotspot--cheshire .hotspot-dot {
+  animation-duration: 5.1s;
+  animation-delay: -2.6s;
+}
+@keyframes dot-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+.hotspot-num {
+  font: 500 0.7rem/1 var(--font-mono);
+  letter-spacing: 0.2em;
+  color: var(--text-primary);
+  text-shadow: var(--tshadow);
+}
+.hotspot-name {
+  font: 500 0.66rem/1 var(--font-body);
+  letter-spacing: 0.2em;
+  color: var(--text-primary);
+  text-shadow: var(--tshadow);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity var(--t-expr) var(--ease-out),
+    transform var(--t-expr) var(--ease-out);
+}
+.hotspot:is(:hover, :focus-visible) .hotspot-name {
+  opacity: 1;
+  transform: none;
+}
+.hotspot:is(:hover, :focus-visible) .hotspot-dot {
+  background: var(--antique-gold);
+}
+
+/* ---------------------------------------------------------------- bands: shared */
+.band-counter,
+.hud,
+.stage-media,
+.frame-overlay,
+.stage-veil {
+  display: none;
+}
+.band-telemetry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+  font: 400 0.66rem/1.4 var(--font-mono);
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+.band-telemetry div {
+  display: flex;
+  gap: 6px;
+}
+.band-telemetry dd {
+  color: var(--text-primary);
+}
+.band-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+}
+
+.band--threshold .headline {
+  font-size: clamp(3rem, 1.2rem + 7.4vw, 7.6rem);
+  line-height: 0.93;
+}
+.band--fall .headline,
+.band--disorientation .headline {
+  font-size: clamp(2.2rem, 1.4rem + 3vw, 3.9rem);
+}
+.band--landing .headline {
+  font-size: clamp(2.4rem, 1.5rem + 3.3vw, 4.4rem);
+}
+.band--crossroads .headline {
+  font-size: clamp(2.1rem, 1.3rem + 2.9vw, 3.8rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.band-col > * + * {
+  margin-top: clamp(14px, 2.2vh, 24px);
+}
+.band-col > .headline {
+  margin-top: clamp(12px, 1.8vh, 20px);
+}
+.band-col > .band-actions,
+.band-col > .cue {
+  margin-top: clamp(22px, 3.6vh, 40px);
+}
+
+/* ---------------------------------------------------------------- STATIC (default)
+   Every chapter is a composed section: the approved frame and its copy.
+   Wide screens get the frame full-bleed with the editorial column; narrow
+   and portrait screens get the frame first and the copy beneath it. */
+.track {
+  position: relative;
+}
+.bands {
+  position: relative;
+}
+.band {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--nav-h) + 6vh) var(--gutter) 10vh;
+  overflow: hidden;
+}
+.band-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.band-pic,
+.band-pic img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.band-pic img {
+  object-fit: cover;
+  object-position: var(--focal-x, 65%) 50%;
+}
+.band--threshold {
+  --focal-x: 72%;
+}
+.band--fall {
+  --focal-x: 62%;
+}
+.band--disorientation {
+  --focal-x: 66%;
+}
+.band--landing {
+  --focal-x: 62%;
+}
+.band-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(var(--scrim-rgb), 0.86) 0%, rgba(var(--scrim-rgb), 0.62) 34%, rgba(var(--scrim-rgb), 0.12) 66%, transparent 80%),
+    linear-gradient(to bottom, rgba(var(--scrim-rgb), 0.5), transparent 22%, transparent 76%, rgba(var(--scrim-rgb), 0.7));
+}
+.band-col {
+  position: relative;
+  max-width: min(44rem, 54vw);
+}
+.band-col .headline,
+.band-col .kicker,
+.band-col .body,
+.band-col .cue {
+  text-shadow: var(--tshadow);
+}
+.band-col .cta {
+  text-shadow: none;
+}
+.band > .band-telemetry {
+  position: relative;
+  margin-top: 5vh;
+}
+
+/* static crossroads: the whole frame and an index of the three paths */
+.band--crossroads {
+  justify-content: flex-start;
+}
+html:not([data-mode="scrub"]) .band--crossroads {
+  background: radial-gradient(ellipse 70% 60% at 70% 40%, rgba(39, 68, 74, 0.28), transparent 70%);
+}
+html:not([data-mode="scrub"]) .band--crossroads .band-media,
+html:not([data-mode="scrub"]) .band--crossroads .band-scrim {
+  display: none;
+}
+.xr-static {
+  position: relative;
+  margin-top: 6vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: end;
+}
+.xr-figure {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 2px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+.xr-pic,
+.xr-pic img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.xr-pic img {
+  object-fit: cover;
+}
+.xr-figure .hotspot-mark {
+  translate: -50% -50%;
+}
+.xr-index {
+  display: grid;
+  border-top: 1px solid var(--line-subtle);
+}
+.xr-row {
+  display: grid;
+  grid-template-columns: 2.8rem 1fr;
+  grid-template-areas:
+    "num name"
+    "num line";
+  gap: 4px 14px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line-subtle);
+  align-items: baseline;
+  transition: background-color var(--t-std) var(--ease-out);
+}
+.xr-row-num {
+  grid-area: num;
+  font: 500 0.72rem/1 var(--font-mono);
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+}
+.xr-row-name {
+  grid-area: name;
+  font: 500 1.3rem/1.1 var(--font-display);
+  letter-spacing: 0.08em;
+}
+.xr-row-line {
+  grid-area: line;
+  font: 400 0.8rem/1.4 var(--font-body);
+  color: var(--text-secondary);
+}
+.xr-row:hover .xr-row-name,
+.xr-row:focus-visible .xr-row-name {
+  color: var(--antique-gold);
+}
+
+/* static entrances: --k is a registered number, so it can transition.
+   Text is visible by default and only chapters below the fold wait for
+   their entrance, so a slow (or absent) script never hides the story. */
+.band {
+  --k: 1;
+  transition: --k 1.5s var(--ease-out);
+}
+.band.pending {
+  --k: 0;
+}
+.band.in {
+  --k: 1;
+}
+.band .kicker {
+  opacity: clamp(0, var(--k) * 3, 1);
+}
+.band .headline .w {
+  opacity: clamp(0, (var(--k) - var(--th, 0) * 0.6) * 2.6, 1);
+  transform: translate3d(0, calc((1 - clamp(0, (var(--k) - var(--th, 0) * 0.6) * 2.6, 1)) * 0.5em), 0);
+}
+.band .body,
+.band .band-telemetry,
+.band .xr-static {
+  opacity: clamp(0, (var(--k) - 0.35) * 2.4, 1);
+}
+.band .band-actions,
+.band .cue {
+  opacity: clamp(0, (var(--k) - 0.55) * 3, 1);
+}
+.band.vis .band-pic img {
+  animation: slow-push 26s ease-in-out -6s infinite alternate;
+}
+@keyframes slow-push {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+/* narrow and portrait: frame first, copy beneath */
+@media (max-width: 720px), (orientation: portrait) {
+  .band {
+    min-height: 0;
+    justify-content: flex-start;
+    padding: 0 0 12vh;
+  }
+  .band-media {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    aspect-ratio: 4 / 5;
+    max-height: 78svh;
+    width: 100%;
+    overflow: hidden;
+  }
+  .band-media::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 46%;
+    background: linear-gradient(to bottom, rgba(7, 17, 24, 0), var(--canvas-deep));
+  }
+  .band-pic img {
+    object-position: 50% 50%;
+  }
+  .band-scrim {
+    display: none;
+  }
+  .band-col {
+    max-width: none;
+    margin-top: -16vh;
+    padding: 0 var(--gutter);
+    z-index: 1;
+  }
+  .band > .band-telemetry {
+    padding: 0 var(--gutter);
+  }
+  .band--threshold {
+    padding-top: calc(var(--nav-h) * 0.4);
+  }
+  .band--threshold .headline {
+    font-size: clamp(3.1rem, 1rem + 11vw, 5.6rem);
+  }
+  .band--crossroads {
+    padding-top: calc(var(--nav-h) + 4vh);
+  }
+  .band--crossroads .band-col {
+    margin-top: 0;
+  }
+  .xr-static {
+    grid-template-columns: 1fr;
+    padding: 0 var(--gutter);
+    margin-top: 5vh;
+  }
+  .xr-figure {
+    margin: 0 calc(var(--gutter) * -1);
+    border-radius: 0;
+  }
+}
+
+/* ---------------------------------------------------------------- SCRUB (desktop timeline) */
+html[data-mode="scrub"] .track {
+  height: calc(var(--track-vh) * 1vh);
+}
+html[data-mode="scrub"] .stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  container-type: size;
+  isolation: isolate;
+  background: var(--canvas-deep);
+}
+html[data-mode="scrub"] .stage-media {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+html[data-mode="scrub"] .par {
+  position: absolute;
+  inset: 0;
+}
+html[data-mode="scrub"] .scrim-global {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 120% 90% at 55% 46%, rgba(var(--scrim-rgb), 0) 40%, rgba(var(--scrim-rgb), 0.5) 100%),
+    linear-gradient(to bottom, rgba(var(--scrim-rgb), 0.42), transparent 15%, transparent 82%, rgba(var(--scrim-rgb), 0.55));
+}
+html[data-mode="scrub"] .motes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+html[data-mode="scrub"] .bands {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+html[data-mode="scrub"] .band {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  padding: 0;
+  display: block;
+  overflow: visible;
+  opacity: var(--o, 0);
+  transition: none;
+}
+html[data-mode="scrub"] .band--threshold {
+  --o: 1;
+}
+html[data-mode="scrub"] .band.is-off {
+  visibility: hidden;
+}
+html[data-mode="scrub"] .band-media,
+html[data-mode="scrub"] .xr-static {
+  display: none;
+}
+html[data-mode="scrub"] .band > .band-telemetry {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+html[data-mode="scrub"] .band-col {
+  position: absolute;
+  left: var(--col-x);
+  top: var(--col-y);
+  width: var(--col-w);
+  max-width: none;
+  pointer-events: none;
+}
+html[data-mode="scrub"] .band-col a,
+html[data-mode="scrub"] .band-col button {
+  pointer-events: auto;
+}
+html[data-mode="scrub"] .band-scrim {
+  position: absolute;
+  inset: auto;
+  left: calc(var(--col-x) - 9vw);
+  top: calc(var(--col-y) - 16vh);
+  width: calc(var(--col-w) + 22vw);
+  height: 84vh;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 58% 56% at 40% 46%,
+    rgba(var(--scrim-rgb), var(--scrim-a, 0.64)) 0%,
+    rgba(var(--scrim-rgb), calc(var(--scrim-a, 0.64) * 0.68)) 46%,
+    rgba(var(--scrim-rgb), 0) 76%
+  );
+  opacity: calc(0.45 + 0.55 * var(--k));
+}
+
+/* column positions follow the approved comps (percent of a 16:9 frame) */
+html[data-mode="scrub"] .band--threshold {
+  --col-x: 6vw;
+  --col-y: 17.5vh;
+  --col-w: min(42vw, 800px);
+  --scrim-a: 0.62;
+}
+html[data-mode="scrub"] .band--fall,
+html[data-mode="scrub"] .band--disorientation {
+  --col-x: 8.4vw;
+  --col-y: 29vh;
+  --col-w: min(28vw, 540px);
+  --scrim-a: 0.74;
+}
+html[data-mode="scrub"] .band--landing {
+  --col-x: 5vw;
+  --col-y: 29vh;
+  --col-w: min(27vw, 520px);
+  --scrim-a: 0.68;
+}
+html[data-mode="scrub"] .band--crossroads {
+  --col-x: 4.6vw;
+  --col-y: 13vh;
+  --col-w: min(35vw, 660px);
+  --scrim-a: 0.72;
+}
+html[data-mode="scrub"] .band--threshold .headline {
+  font-size: min(6.3vw, 11.4vh);
+}
+html[data-mode="scrub"] .band--fall .headline,
+html[data-mode="scrub"] .band--disorientation .headline {
+  font-size: min(3.05vw, 6vh);
+}
+html[data-mode="scrub"] .band--landing .headline {
+  font-size: min(3.5vw, 6.6vh);
+}
+html[data-mode="scrub"] .band--crossroads .headline {
+  font-size: min(2.95vw, 5.8vh);
+}
+html[data-mode="scrub"] .band .body {
+  font-size: clamp(0.9rem, 0.35rem + 0.78vw, 1.18rem);
+}
+html[data-mode="scrub"] .band .body--serif {
+  font-size: clamp(1.02rem, 0.4rem + 0.92vw, 1.4rem);
+}
+
+/* --- entrance choreography: one personality per beat, scrubbed off --k,
+       transform and opacity only, reversible. --x drives each exit. */
+
+html[data-mode="scrub"] .band .kicker,
+html[data-mode="scrub"] .band .body,
+html[data-mode="scrub"] .band .band-actions,
+html[data-mode="scrub"] .band .cue,
+html[data-mode="scrub"] .band .headline .w {
+  transition: none;
+}
+
+/* 00 threshold: the headline assembles editorially, line by line from a
+   mask; as the camera pushes into the portal the type goes with it. */
+html[data-mode="scrub"] .band--threshold {
+  transform-origin: 74% 50%;
+  transform: translate3d(calc(var(--x, 0) * -5vw), 0, 0) scale(calc(1 + var(--x, 0) * 0.24));
+}
+html[data-mode="scrub"] .band--threshold .headline .ln {
+  overflow: hidden;
+  padding: 0.04em 0.12em 0.16em 0.02em;
+  margin: -0.04em -0.12em -0.16em -0.02em;
+}
+html[data-mode="scrub"] .band--threshold .headline .w {
+  --kl: clamp(0, (var(--k) - var(--li) * 0.13) * 2.3, 1);
+  opacity: calc(0.2 + 0.8 * var(--kl));
+  transform: translate3d(0, calc((1 - var(--kl)) * 108%), 0);
+}
+html[data-mode="scrub"] .band--threshold .kicker {
+  --kk: clamp(0, var(--k) * 2.6, 1);
+  opacity: var(--kk);
+  transform: translate3d(calc((1 - var(--kk)) * -14px), 0, 0);
+}
+html[data-mode="scrub"] .band--threshold .body {
+  --kb: clamp(0, (var(--k) - 0.42) * 2.4, 1);
+  opacity: var(--kb);
+  transform: translate3d(0, calc((1 - var(--kb)) * 12px), 0);
+}
+html[data-mode="scrub"] .band--threshold .band-actions {
+  --kc: clamp(0, (var(--k) - 0.62) * 3, 1);
+  opacity: var(--kc);
+  --cta-line: var(--kc);
+}
+html[data-mode="scrub"] .band--threshold .cta {
+  --cta-line: clamp(0, (var(--k) - 0.66) * 3, 1);
+}
+
+/* 01 the fall: words drift down into place; as gravity comes undone
+   they float off in their own directions. */
+html[data-mode="scrub"] .band--fall .headline .w {
+  --kc: clamp(0, (var(--k) - var(--th)) * 2.8, 1);
+  opacity: var(--kc);
+  transform: translate3d(
+      calc(var(--x, 0) * var(--jx) * 1.6),
+      calc((1 - var(--kc)) * -0.9em + var(--x, 0) * (-26px + var(--jy))),
+      0
+    )
+    rotate(calc(var(--x, 0) * var(--jr) * 0.7));
+}
+
+/* 02 disorientation: words approach from depth along orbits, then settle;
+   on the way out they rush toward the light. */
+html[data-mode="scrub"] .band--disorientation {
+  transform-origin: 20% 45%;
+  transform: scale(calc(1 + var(--x, 0) * 0.1)) translate3d(0, calc(var(--x, 0) * -2vh), 0);
+}
+html[data-mode="scrub"] .band--disorientation .headline .w {
+  --kc: clamp(0, (var(--k) - var(--th)) * 2.4, 1);
+  opacity: var(--kc);
+  transform: translate3d(calc((1 - var(--kc)) * var(--jx)), calc((1 - var(--kc)) * var(--jy)), 0)
+    rotate(calc((1 - var(--kc)) * var(--jr)))
+    scale(calc(0.78 + 0.22 * var(--kc)));
+}
+
+/* 03 the arrival: words rise and settle, then the passage, then the way on */
+html[data-mode="scrub"] .band--landing {
+  transform: translate3d(calc(var(--x, 0) * -4vw), 0, 0);
+}
+html[data-mode="scrub"] .band--landing .headline .w {
+  --kc: clamp(0, (var(--k) - var(--th) * 0.9) * 3, 1);
+  opacity: var(--kc);
+  transform: translate3d(0, calc((1 - var(--kc)) * 0.62em), 0);
+}
+html[data-mode="scrub"] .band--landing .body {
+  --ks: clamp(0, (var(--k) - 0.62) * 4, 1);
+  opacity: var(--ks);
+  transform: translate3d(0, calc((1 - var(--ks)) * 10px), 0);
+}
+html[data-mode="scrub"] .band--landing .band-actions {
+  --kb: clamp(0, (var(--k) - 0.8) * 5, 1);
+  opacity: var(--kb);
+}
+
+/* 04 the crossroads: no flourish; a statement that is simply there */
+html[data-mode="scrub"] .band--crossroads .headline {
+  --kc: clamp(0, var(--k) * 1.7, 1);
+  opacity: var(--kc);
+  transform: translate3d(0, calc((1 - var(--kc)) * 8px), 0);
+}
+html[data-mode="scrub"] .band--crossroads .headline .w {
+  opacity: 1;
+  transform: none;
+}
+
+/* shared supporting lines for the inner chapters */
+html[data-mode="scrub"] :is(.band--fall, .band--disorientation, .band--crossroads) .kicker {
+  opacity: clamp(0, var(--k) * 3, 1);
+}
+html[data-mode="scrub"] :is(.band--fall, .band--disorientation, .band--crossroads) .body {
+  --kb: clamp(0, (var(--k) - 0.45) * 2.4, 1);
+  opacity: var(--kb);
+  transform: translate3d(0, calc((1 - var(--kb)) * 8px), 0);
+}
+html[data-mode="scrub"] :is(.band--fall, .band--disorientation, .band--crossroads, .band--landing) .cue {
+  opacity: clamp(0, (var(--k) - 0.7) * 3.4, 1);
+}
+html[data-mode="scrub"] .band--landing .kicker {
+  opacity: clamp(0, var(--k) * 3, 1);
+}
+
+/* depth readout beside the threshold headline */
+html[data-mode="scrub"] .band-counter {
+  display: flex;
+  position: absolute;
+  left: calc(6vw + min(34vw, 660px));
+  top: calc(17.5vh + min(6.3vw, 11.4vh) * 0.34);
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  font: 400 0.72rem/1 var(--font-mono);
+  letter-spacing: 0.16em;
+  color: var(--text-primary);
+  text-shadow: var(--tshadow);
+  opacity: clamp(0, (var(--k) - 0.3) * 2, 1);
+}
+.band-counter-rule {
+  width: 1px;
+  height: 22px;
+  background: var(--line-strong);
+}
+.band-counter-label {
+  font-size: 0.62rem;
+  color: var(--text-secondary);
+}
+
+/* ---------------------------------------------------------------- HUD */
+html[data-mode="scrub"] .hud {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+.hud-rail {
+  position: absolute;
+  left: max(14px, 1.5vw);
+  top: 50%;
+  height: 46vh;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.hud-rail-label {
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  font: 500 0.6rem/1 var(--font-body);
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+}
+.hud-rail-line {
+  position: relative;
+  flex: 1;
+  width: 1px;
+  background: var(--line-subtle);
+  overflow: hidden;
+}
+.hud-rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--antique-gold);
+  transform-origin: 50% 0;
+  transform: scaleY(var(--depth, 0));
+}
+.hud-rail-arrow {
+  font: 400 0.7rem/1 var(--font-body);
+  color: var(--text-secondary);
+}
+.hud-bar {
+  position: absolute;
+  left: max(56px, 4.6vw);
+  right: var(--gutter);
+  bottom: max(18px, 3.4vh);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  font: 400 0.66rem/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+  text-shadow: var(--tshadow);
+}
+.hud-chapter,
+.hud-telemetry {
+  display: grid;
+}
+.hud-chapter > span,
+.hud-telemetry > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translate3d(0, 6px, 0);
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 0.7s var(--ease-out);
+  white-space: nowrap;
+}
+.hud-telemetry > span {
+  display: flex;
+  gap: 26px;
+  justify-content: center;
+}
+.hud-chapter > span {
+  color: var(--text-primary);
+}
+.tm-v {
+  color: var(--text-primary);
+}
+.experience[data-chapter="threshold"] [data-for="threshold"],
+.experience[data-chapter="fall"] [data-for="fall"],
+.experience[data-chapter="disorientation"] [data-for="disorientation"],
+.experience[data-chapter="landing"] [data-for="landing"],
+.experience[data-chapter="crossroads"] [data-for="crossroads"] {
+  opacity: 1;
+  transform: none;
+}
+.experience[data-intense="1"] .hud-telemetry > span {
+  opacity: 0;
+}
+.hud-cue {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-primary);
+}
+.hud-cue-icon {
+  width: 16px;
+  height: 26px;
+  overflow: visible;
+}
+.hud-cue-icon rect {
+  fill: none;
+  stroke-width: 1;
+}
+.hud-cue-icon .track {
+  stroke: var(--line-strong);
+}
+.hud-cue-icon .fill {
+  stroke: var(--text-primary);
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.3s linear, stroke 0.6s;
+}
+.experience[data-loading="1"] .hud-cue-icon .fill {
+  stroke: var(--antique-gold);
+  stroke-dashoffset: calc(1 - var(--ld, 0));
+}
+.hud-cue-icon .dot {
+  fill: var(--text-primary);
+  animation: cue-dot 2.6s var(--ease-inout) infinite;
+}
+@keyframes cue-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.experience[data-chapter="crossroads"] .hud-cue {
+  opacity: 0.4;
+}
+
+/* ---------------------------------------------------------------- stage overlays */
+html[data-mode="scrub"] .frame-overlay {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+html[data-mode="scrub"] .frame-overlay .xr {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.6s var(--ease-out),
+    visibility 0s linear 0.6s;
+}
+html[data-mode="scrub"] .experience[data-choose="on"] .frame-overlay .xr {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.9s var(--ease-out);
+}
+html[data-mode="scrub"] .frame-overlay .hotspot {
+  pointer-events: auto;
+}
+
+html[data-mode="scrub"] .stage-veil {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  background: var(--canvas-deep);
+  opacity: 0;
+  transition: opacity 0.24s var(--ease-inout);
+}
+html[data-mode="scrub"] .stage.is-cut .stage-veil {
+  opacity: 1;
+}
+
+/* short desktop windows keep the journey, lose the small overlays */
+@media (max-height: 560px) {
+  html[data-mode="scrub"] .hud-rail,
+  html[data-mode="scrub"] .hud-telemetry,
+  html[data-mode="scrub"] .band-counter {
+    display: none;
+  }
+}
+
+/* reduced motion never scrubs (it is one of the gates); belt and braces */
+@media (prefers-reduced-motion: reduce) {
+  .band,
+  .path-band {
+    --k: 1 !important;
+  }
+}
